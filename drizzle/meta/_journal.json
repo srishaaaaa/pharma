@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1788158991199,
+      "tag": "0000_fair_wendigo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789042651973,
+      "tag": "0001_add_brand_manufacturer_to_batches",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789496746948,
+      "tag": "0002_stormy_wild_pack",
+      "breakpoints": true
+    }
+  ]
+}
