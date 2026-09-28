@@ -33,7 +33,7 @@ export const ScreenHeading = ({
 }) => (
   <div className="mb-4 flex items-center gap-2.5">
     {icon}
-    <h2 className="text-[15px] font-bold uppercase tracking-wide text-[#0a6127]">{children}</h2>
+    <h2 className="text-[15px] font-bold uppercase tracking-wide text-[#00695e]">{children}</h2>
   </div>
 );
 
@@ -103,7 +103,7 @@ export const Button = ({
   variant?: "primary" | "ghost" | "danger" | "blue";
 }) => {
   const styles: Record<string, string> = {
-    primary: "bg-[#0a6127] text-white hover:bg-[#0d7530]",
+    primary: "bg-[#00695e] text-white hover:bg-[#00736a]",
     ghost: "border border-[#d8dde3] bg-white text-gray-700 hover:bg-gray-50",
     danger: "border border-red-200 bg-white text-red-600 hover:bg-red-50",
     blue: "bg-[#1f6feb] text-white hover:bg-[#1a5fd0]",
@@ -125,7 +125,7 @@ export const ScheduleBadge = ({ schedule }: { schedule: string }) => {
   return (
     <span
       className={`inline-flex items-center gap-1 whitespace-nowrap text-[12px] font-semibold ${
-        otc ? "text-[#128a3a]" : "text-[#dc2626]"
+        otc ? "text-[#00897b]" : "text-[#dc2626]"
       }`}
     >
       {otc ? "OTC" : `SCHEDULED - ${schedule}`}
@@ -142,7 +142,7 @@ export const Pill = ({
 }) => {
   const tones: Record<string, string> = {
     gray: "bg-gray-100 text-gray-700",
-    green: "bg-[#e8f5ec] text-[#0a6127]",
+    green: "bg-[#e5f4f1] text-[#00695e]",
     red: "bg-red-50 text-red-600",
     amber: "bg-amber-50 text-amber-700",
     blue: "bg-blue-50 text-blue-700",
@@ -263,7 +263,7 @@ export const StatTile = ({
     blue: "text-[#1f6feb] bg-[#eaf1fe]",
     amber: "text-[#d97706] bg-[#fef4e6]",
     red: "text-[#dc2626] bg-[#fdecec]",
-    green: "text-[#0a6127] bg-[#e8f5ec]",
+    green: "text-[#00695e] bg-[#e5f4f1]",
     gray: "text-gray-600 bg-gray-100",
   };
   return (
@@ -271,7 +271,7 @@ export const StatTile = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full cursor-pointer items-center gap-3.5 rounded-xl border border-[#e5e7eb] bg-white px-4 py-4 text-left transition hover:border-[#0f7a31]/40 hover:shadow-md"
+        className="flex w-full cursor-pointer items-center gap-3.5 rounded-xl border border-[#e5e7eb] bg-white px-4 py-4 text-left transition hover:border-[#007f72]/40 hover:shadow-md"
       >
         <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${tones[tone]}`}>{icon}</span>
         <div className="min-w-0 flex-1">
@@ -305,7 +305,7 @@ export const EmptyState = ({
 export const Toast = ({ message, tone = "green" }: { message: string; tone?: "green" | "red" }) => (
   <div
     className={`fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-xl ${
-      tone === "green" ? "bg-[#0a6127]" : "bg-red-600"
+      tone === "green" ? "bg-[#00695e]" : "bg-red-600"
     }`}
   >
     {message}

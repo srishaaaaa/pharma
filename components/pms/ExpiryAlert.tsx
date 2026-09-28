@@ -134,7 +134,7 @@ export const ExpiryAlert = ({
               key={t.key}
               onClick={() => setTab(t.key)}
               className={`cursor-pointer px-4 py-2 text-[13px] font-semibold transition ${
-                tab === t.key ? "bg-[#0a6127] text-white" : "bg-white text-gray-700 hover:bg-gray-50"
+                tab === t.key ? "bg-[#00695e] text-white" : "bg-white text-gray-700 hover:bg-gray-50"
               }`}
             >
               {t.label} ({t.count})
@@ -147,7 +147,7 @@ export const ExpiryAlert = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search medicine, batch or box"
-            className="h-11 w-full rounded-lg border border-[#e2e6ea] bg-white pl-10 pr-3 text-[13.5px] outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31]"
+            className="h-11 w-full rounded-lg border border-[#e2e6ea] bg-white pl-10 pr-3 text-[13.5px] outline-none transition placeholder:text-gray-400 focus:border-[#007f72]"
           />
         </div>
       </div>
@@ -192,7 +192,7 @@ export const ExpiryAlert = ({
                           ? "text-[#dc2626]"
                           : state === "SOON"
                             ? "text-[#d97706]"
-                            : "text-[#128a3a]"
+                            : "text-[#00897b]"
                       }`}
                     >
                       {monthSlash(batch.exp_date)}

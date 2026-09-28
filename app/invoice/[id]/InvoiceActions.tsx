@@ -34,11 +34,11 @@ export function InvoiceActions() {
     <div className="flex items-center gap-3">
       <button 
         onClick={handleCopyLink}
-        className="flex items-center gap-2 bg-white hover:bg-[#FAFAFA] text-[#02222d] hover:text-[#0a6127] font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-lg shadow-sm border border-[#0a6127]/30 transition-colors cursor-pointer"
+        className="flex items-center gap-2 bg-white hover:bg-[#FAFAFA] text-[#1a1d21] hover:text-[#00695e] font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-lg shadow-sm border border-[#00695e]/30 transition-colors cursor-pointer"
       >
         {copied ? (
           <>
-            <Check className="w-4 h-4 text-green-600" /> Copied!
+            <Check className="w-4 h-4 text-teal-600" /> Copied!
           </>
         ) : (
           <>
@@ -48,7 +48,7 @@ export function InvoiceActions() {
       </button>
       <button 
         onClick={handlePrint}
-        className="flex items-center gap-2 bg-gradient-to-r from-[#0a6127] via-[#0a6127] to-[#0a6127] hover:brightness-105 text-white font-bold text-xs uppercase tracking-wider px-5 py-2 rounded-lg shadow-md transition-all cursor-pointer"
+        className="flex items-center gap-2 bg-gradient-to-r from-[#00695e] via-[#00695e] to-[#00695e] hover:brightness-105 text-white font-bold text-xs uppercase tracking-wider px-5 py-2 rounded-lg shadow-md transition-all cursor-pointer"
       >
         <Printer className="w-4 h-4" /> Download PDF / Print
       </button>

@@ -102,7 +102,7 @@ export const Customers = ({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by customer ID, name or phone"
-          className="h-11 w-full rounded-lg border border-[#e2e6ea] bg-white pl-10 pr-3 text-[13.5px] outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31]"
+          className="h-11 w-full rounded-lg border border-[#e2e6ea] bg-white pl-10 pr-3 text-[13.5px] outline-none transition placeholder:text-gray-400 focus:border-[#007f72]"
         />
       </div>
 
@@ -148,7 +148,7 @@ export const Customers = ({
                       <button
                         onClick={() => setSelected(customer)}
                         aria-label="Purchase history"
-                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                       >
                         <Receipt className="h-4 w-4" />
                       </button>
@@ -157,7 +157,7 @@ export const Customers = ({
                           <button
                             onClick={() => setEditing(customer)}
                             aria-label="Edit"
-                            className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                            className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
@@ -225,7 +225,7 @@ export const Customers = ({
                 <button
                   onClick={() => setSelected(customer)}
                   aria-label="Purchase history"
-                  className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                  className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                 >
                   <Receipt className="h-4 w-4" />
                 </button>
@@ -234,7 +234,7 @@ export const Customers = ({
                     <button
                       onClick={() => setEditing(customer)}
                       aria-label="Edit"
-                      className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                      className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                     >
                       <Pencil className="h-4 w-4" />
                     </button>
@@ -265,7 +265,7 @@ export const Customers = ({
                 <p className="text-[10.5px] font-semibold uppercase tracking-wide text-gray-400">
                   Total
                 </p>
-                <p className="mt-0.5 text-[14px] font-bold text-[#0a6127]">₹{amount(spend)}</p>
+                <p className="mt-0.5 text-[14px] font-bold text-[#00695e]">₹{amount(spend)}</p>
               </div>
               <div>
                 <p className="text-[10.5px] font-semibold uppercase tracking-wide text-gray-400">
@@ -300,7 +300,7 @@ export const Customers = ({
               <span className="flex items-center gap-1.5">
                 <MapPin className="h-4 w-4 text-gray-400" /> {selected.address || "—"}
               </span>
-              <span className="ml-auto font-semibold text-[#0a6127]">
+              <span className="ml-auto font-semibold text-[#00695e]">
                 {selectedHistory.length} bills ·{" "}
                 {money(selectedHistory.reduce((sum, b) => sum + b.grand_total, 0))}
               </span>
@@ -312,7 +312,7 @@ export const Customers = ({
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#f1f3f5] px-4 py-2.5">
                     <span className="text-[13px] font-bold text-gray-900">{bill.id}</span>
                     <span className="text-[12.5px] text-gray-500">{dateSlash(bill.bill_date)}</span>
-                    <span className="text-[13px] font-bold text-[#0a6127]">
+                    <span className="text-[13px] font-bold text-[#00695e]">
                       {money(bill.grand_total)}
                     </span>
                   </div>
@@ -450,7 +450,7 @@ const CustomerFormModal = ({
             type="checkbox"
             checked={draft.quick_bill}
             onChange={(e) => setDraft({ ...draft, quick_bill: e.target.checked })}
-            className="h-4 w-4 cursor-pointer accent-[#0a6127]"
+            className="h-4 w-4 cursor-pointer accent-[#00695e]"
           />
           Register for Quick Bill
         </label>

@@ -114,7 +114,7 @@ export const Reports = ({
       <div className="mb-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card className="p-5">
           <div className="flex items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#e8f5ec] text-[#0a6127]">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#e5f4f1] text-[#00695e]">
               <FileSpreadsheet className="h-5 w-5" />
             </span>
             <div className="min-w-0 flex-1">
@@ -238,7 +238,7 @@ export const Reports = ({
                   <td className="td">{bill.customer_name || "Walk-in Customer"}</td>
                   <td className="td">{bill.customer_phone || "—"}</td>
                   <td className="td text-center">{bill.items.length}</td>
-                  <td className="td text-right text-[#0a6127]">{amount(bill.discount)}</td>
+                  <td className="td text-right text-[#00695e]">{amount(bill.discount)}</td>
                   <td className="td text-right">{amount(bill.gst_amount)}</td>
                   <td className="td text-right font-bold">{amount(bill.grand_total)}</td>
                   <td className="td">
@@ -246,14 +246,14 @@ export const Reports = ({
                       <button
                         onClick={() => setViewing(bill)}
                         aria-label="View bill"
-                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                       >
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => window.open(`/invoice/${bill.id}`, "_blank")}
                         aria-label="Print bill"
-                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                       >
                         <Printer className="h-4 w-4" />
                       </button>
@@ -353,7 +353,7 @@ export const Reports = ({
               <SummaryRow label={`GST (${viewing.gst_percent}%)`} value={money(viewing.gst_amount)} />
               <div className="flex items-center justify-between border-t border-[#eef1f3] pt-2.5">
                 <span className="text-[15px] font-bold">TOTAL</span>
-                <span className="text-[19px] font-extrabold text-[#0a6127]">
+                <span className="text-[19px] font-extrabold text-[#00695e]">
                   {money(viewing.grand_total)}
                 </span>
               </div>

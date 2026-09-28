@@ -130,7 +130,7 @@ export default function PharmacyManagementSystem() {
 
   if (checking || isDataLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#02222d]">
+      <div className="flex min-h-screen items-center justify-center bg-[#1a1d21]">
         <p className="animate-pulse text-[12px] font-bold uppercase tracking-[0.2em] text-white/60">
           Loading…
         </p>

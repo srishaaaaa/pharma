@@ -2,26 +2,26 @@
 
 :root {
   /* Palette sampled from the client mockups */
-  --brand-sidebar: #02222d;
-  --brand-sidebar-2: #04303c;
-  --brand-green: #0f7a31;
-  --brand-deep: #0a6127;
-  --brand-ink: #0b2b1a;
+  --brand-sidebar: #1a1d21;
+  --brand-sidebar-2: #24282d;
+  --brand-green: #007f72;
+  --brand-deep: #00695e;
+  --brand-ink: #0b2b27;
   --surface: #f7f8fa;
   --line: #e5e7eb;
-  --primary: #0f7a31;
-  --secondary: #0a6127;
+  --primary: #007f72;
+  --secondary: #00695e;
 }
 
 @theme {
-  --color-brand-sidebar: #02222d;
-  --color-brand-green: #0f7a31;
-  --color-brand-deep: #0a6127;
-  --color-brand-mint: #e8f5ec;
+  --color-brand-sidebar: #1a1d21;
+  --color-brand-green: #007f72;
+  --color-brand-deep: #00695e;
+  --color-brand-mint: #e5f4f1;
   --color-surface: #f7f8fa;
   --color-line: #e5e7eb;
-  --color-primary: #0f7a31;
-  --color-secondary: #0a6127;
+  --color-primary: #007f72;
+  --color-secondary: #00695e;
 }
 
 body {
@@ -60,7 +60,7 @@ input[type="number"] {
   .field {
     @apply w-full rounded-lg border border-[#d8dde3] bg-white px-3 py-2.5 text-sm text-gray-900
            outline-none transition placeholder:text-gray-400
-           focus:border-[#0f7a31] focus:ring-2 focus:ring-[#0f7a31]/15;
+           focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/15;
   }
   .field-label {
     @apply mb-1.5 block text-[13px] font-medium text-gray-700;
@@ -69,8 +69,8 @@ input[type="number"] {
     @apply rounded-xl border border-[#e5e7eb] bg-white;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[#0a6127] px-5 py-2.5
-           text-sm font-semibold text-white transition hover:bg-[#0d7530]
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[#00695e] px-5 py-2.5
+           text-sm font-semibold text-white transition hover:bg-[#00736a]
            disabled:cursor-not-allowed disabled:opacity-40;
   }
   .btn-ghost {

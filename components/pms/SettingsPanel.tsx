@@ -175,7 +175,7 @@ export const SettingsPanel = ({
                 <button
                   onClick={() => setSupplierDraft(supplier)}
                   aria-label="Edit supplier"
-                  className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                  className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                 >
                   <Pencil className="h-4 w-4" />
                 </button>

@@ -63,7 +63,7 @@ export const Sidebar = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-[248px] shrink-0 flex-col bg-[#02222d] transition-transform duration-200 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-[248px] shrink-0 flex-col bg-[#1a1d21] transition-transform duration-200 lg:static lg:translate-x-0 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -80,7 +80,7 @@ export const Sidebar = ({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.jpeg" alt="AK Pharma" className="h-11 w-11 shrink-0 object-contain" />
             <div className="min-w-0 leading-none">
-              <p className="text-[15px] font-extrabold leading-[1.1] tracking-tight text-[#0a6127]">
+              <p className="text-[15px] font-extrabold leading-[1.1] tracking-tight text-[#00695e]">
                 AK
                 <br />
                 PHARMA
@@ -102,7 +102,7 @@ export const Sidebar = ({
                 onClick={() => onSelect(item.key)}
                 className={`mb-0.5 flex w-full cursor-pointer items-center gap-3 rounded-lg px-3.5 py-3 text-left text-[14px] font-medium transition ${
                   isActive
-                    ? "bg-[#0f7a31] text-white shadow-sm"
+                    ? "bg-[#007f72] text-white shadow-sm"
                     : "text-white/80 hover:bg-white/[0.07] hover:text-white"
                 }`}
               >

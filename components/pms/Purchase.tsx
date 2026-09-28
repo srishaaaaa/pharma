@@ -232,7 +232,7 @@ export const Purchase = ({
                   }));
                 }}
                 placeholder="Select or type new supplier"
-                className="h-11 w-full rounded-lg border border-[#dfe3e7] px-3 text-[13px] outline-none transition placeholder:text-gray-300 focus:border-[#0f7a31] focus:ring-2 focus:ring-[#0f7a31]/12"
+                className="h-11 w-full rounded-lg border border-[#dfe3e7] px-3 text-[13px] outline-none transition placeholder:text-gray-300 focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/12"
               />
               <datalist id="supplier-list">
                 {suppliers.map((s) => (
@@ -310,7 +310,7 @@ export const Purchase = ({
                           })()} · HSN {m.hsn_code}
                         </span>
                       </span>
-                      <span className="shrink-0 text-[12px] font-semibold text-[#0a6127]">
+                      <span className="shrink-0 text-[12px] font-semibold text-[#00695e]">
                         {m.total_stock} in stock
                       </span>
                     </button>
@@ -556,7 +556,7 @@ const CalcGroup = ({
   const tones: Record<string, string> = {
     gray: "bg-[#f4f6f8] text-gray-600",
     blue: "bg-[#eaf1fe] text-[#1f6feb]",
-    green: "bg-[#eef7f1] text-[#0a6127]",
+    green: "bg-[#ecf7f5] text-[#00695e]",
   };
   return (
     <div className="overflow-hidden rounded-lg border border-[#e5e7eb] bg-white">
@@ -584,8 +584,8 @@ const CalcReadonly = ({
   <div>
     <label className="field-label">{label}</label>
     <div
-      className={`flex h-[42px] items-center justify-center rounded-lg border border-dashed border-[#cfd9d2] bg-[#f7faf8] px-3 text-[14px] font-bold ${
-        tone === "green" ? "text-[#0a6127]" : "text-gray-900"
+      className={`flex h-[42px] items-center justify-center rounded-lg border border-dashed border-[#cfd9d2] bg-[#f5faf9] px-3 text-[14px] font-bold ${
+        tone === "green" ? "text-[#00695e]" : "text-gray-900"
       }`}
     >
       {value}
@@ -604,7 +604,7 @@ const SummaryCell = ({
 }) => (
   <div className="bg-white px-4 py-3.5">
     <p className="text-[12px] text-gray-500">{label}</p>
-    <p className={`text-[19px] font-bold ${highlight ? "text-[#0a6127]" : "text-gray-900"}`}>
+    <p className={`text-[19px] font-bold ${highlight ? "text-[#00695e]" : "text-gray-900"}`}>
       {value}
     </p>
   </div>

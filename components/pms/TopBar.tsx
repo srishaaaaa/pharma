@@ -69,9 +69,9 @@ export const TopBar = ({
               if (e.key === "Enter") onSearchSubmit();
             }}
             placeholder="Search medicine by name"
-            className="h-11 w-full rounded-xl border border-[#e2e6ea] bg-white pl-9 pr-3 text-[14px] sm:pl-11 sm:pr-14 text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31] focus:ring-2 focus:ring-[#0f7a31]/12"
+            className="h-11 w-full rounded-xl border border-[#e2e6ea] bg-white pl-9 pr-3 text-[14px] sm:pl-11 sm:pr-14 text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/12"
           />
-          <span className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-md sm:inline-block border border-[#cfe6d6] bg-[#eef7f1] px-2 py-0.5 text-[11px] font-semibold text-[#0a6127]">
+          <span className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-md sm:inline-block border border-[#cfe6d6] bg-[#ecf7f5] px-2 py-0.5 text-[11px] font-semibold text-[#00695e]">
             F2
           </span>
         </div>

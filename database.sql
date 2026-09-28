@@ -168,6 +168,6 @@ INSERT INTO "settings" (
   1, 'AK PHARMA', 'Aravinthan A',
   'NO 2 , Venugopalapuram , kill nachipattu post , Tiruvannamalai 606 611',
   '7259103278', '', 'akaravinthan2413@gmail.com',
-  '33ABCDE1234F1Z5', 'TN/KPW20/01877, TN/KPW21/01877', 'green',
+  '33ABCDE1234F1Z5', 'TN/KPW20/01877, TN/KPW21/01877', 'teal',
   '/logos/ak-pharma-logo-square.jpeg', '', '12', 20, 6
 ) ON CONFLICT ("id") DO NOTHING;

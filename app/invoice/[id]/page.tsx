@@ -11,7 +11,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
   if (!bill) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-white px-4 text-center">
-        <p className="text-xl font-bold text-[#0a6127]">Bill Not Found</p>
+        <p className="text-xl font-bold text-[#00695e]">Bill Not Found</p>
         <p className="max-w-sm text-[13px] text-gray-500">
           Bill ID &quot;{id}&quot; was not found in the database.
         </p>

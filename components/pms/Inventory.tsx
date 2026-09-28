@@ -146,7 +146,7 @@ export const Inventory = ({
               <button
                 onClick={() => setTab("stock")}
                 className={`cursor-pointer px-4 py-2 text-[13px] font-semibold transition ${
-                  tab === "stock" ? "bg-[#0a6127] text-white" : "bg-white text-gray-700 hover:bg-gray-50"
+                  tab === "stock" ? "bg-[#00695e] text-white" : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 Stock
@@ -154,7 +154,7 @@ export const Inventory = ({
               <button
                 onClick={() => setTab("master")}
                 className={`cursor-pointer px-4 py-2 text-[13px] font-semibold transition ${
-                  tab === "master" ? "bg-[#0a6127] text-white" : "bg-white text-gray-700 hover:bg-gray-50"
+                  tab === "master" ? "bg-[#00695e] text-white" : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 Medicine Master
@@ -224,7 +224,7 @@ export const Inventory = ({
                   setPage(1);
                 }}
                 placeholder="Search by Generic / Brand / Batch / Box..."
-                className="h-11 w-full rounded-lg border border-[#e2e6ea] bg-white pl-10 pr-3 text-[13.5px] outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31]"
+                className="h-11 w-full rounded-lg border border-[#e2e6ea] bg-white pl-10 pr-3 text-[13.5px] outline-none transition placeholder:text-gray-400 focus:border-[#007f72]"
               />
             </div>
             <div className="w-[190px]">
@@ -341,7 +341,7 @@ export const Inventory = ({
                         ? "text-[#dc2626]"
                         : state === "SOON"
                           ? "text-[#d97706]"
-                          : "text-[#128a3a]";
+                          : "text-[#00897b]";
                     const otc = medicine.schedule === "OTC";
                     return (
                       <tr key={batch.id} className="transition hover:bg-[#fafbfc]">
@@ -352,7 +352,7 @@ export const Inventory = ({
                         <td className="td">{batch.brand_name || medicine.brand_name}</td>
                         <td
                           className={`td whitespace-nowrap text-[12.5px] font-semibold ${
-                            otc ? "text-[#128a3a]" : "text-[#dc2626]"
+                            otc ? "text-[#00897b]" : "text-[#dc2626]"
                           }`}
                         >
                           {scheduleLabel(medicine.schedule)}
@@ -388,7 +388,7 @@ export const Inventory = ({
                               <button
                                 onClick={() => setEditBatch(batch)}
                                 aria-label="Edit batch"
-                                className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                                className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                               >
                                 <Pencil className="h-4 w-4" />
                               </button>
@@ -468,7 +468,7 @@ export const Inventory = ({
                 <span className="h-2.5 w-2.5 rounded-full bg-[#dc2626]" /> SCHEDULED - H / H1 / X / NRX
               </p>
               <p className="flex items-center gap-2 text-[12.5px] text-gray-700">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#128a3a]" /> OTC (Over The Counter)
+                <span className="h-2.5 w-2.5 rounded-full bg-[#00897b]" /> OTC (Over The Counter)
               </p>
             </Card>
 
@@ -557,7 +557,7 @@ const MedicineMaster = ({
                 <td className="td">
                   <span
                     className={`text-[12.5px] font-semibold ${
-                      medicine.schedule === "OTC" ? "text-[#128a3a]" : "text-[#dc2626]"
+                      medicine.schedule === "OTC" ? "text-[#00897b]" : "text-[#dc2626]"
                     }`}
                   >
                     {scheduleLabel(medicine.schedule)}
@@ -586,7 +586,7 @@ const MedicineMaster = ({
                       <button
                         onClick={() => onEdit(medicine)}
                         aria-label="Edit medicine"
-                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#0a6127]"
+                        className="cursor-pointer rounded-md p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-[#00695e]"
                       >
                         <Pencil className="h-4 w-4" />
                       </button>

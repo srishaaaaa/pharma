@@ -213,7 +213,7 @@ export const Dashboard = ({
                     </td>
                     <td className="td text-gray-500">{timeLabel(bill.created_at)}</td>
                     <td className="td text-center">{bill.items.length}</td>
-                    <td className="td text-right text-[#0a6127]">{amount(bill.discount)}</td>
+                    <td className="td text-right text-[#00695e]">{amount(bill.discount)}</td>
                     <td className="td text-right font-bold">{money(bill.grand_total)}</td>
                   </tr>
                 ))}
@@ -268,7 +268,7 @@ export const Dashboard = ({
         <div className="divide-y divide-[#f1f3f5]">
           {topMedicines.map((row, index) => (
             <div key={index} className="flex items-center gap-3 px-4 py-3">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#e8f5ec] text-[12px] font-bold text-[#0a6127]">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#e5f4f1] text-[12px] font-bold text-[#00695e]">
                 {index + 1}
               </span>
               <span className="min-w-0 flex-1 truncate text-[13.5px] font-medium text-gray-900">
@@ -306,14 +306,14 @@ const KpiCard = ({
 }) => {
   const [open, setOpen] = React.useState(false);
   const tones: Record<string, string> = {
-    green: "bg-[#e8f5ec] text-[#0a6127]",
+    green: "bg-[#e5f4f1] text-[#00695e]",
     blue: "bg-[#eaf1fe] text-[#1f6feb]",
     gray: "bg-gray-100 text-gray-600",
   };
   return (
     <>
     <Card
-      className="cursor-pointer p-4 transition hover:border-[#0f7a31]/40 hover:shadow-md"
+      className="cursor-pointer p-4 transition hover:border-[#007f72]/40 hover:shadow-md"
       onClick={() => setOpen(true)}
     >
       <div className="flex items-start justify-between">

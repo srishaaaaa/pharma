@@ -42,7 +42,7 @@ export const DEFAULT_SETTINGS: ShopSettings = {
   email: "akaravinthan2413@gmail.com",
   gstin: "33ABCDE1234F1Z5",
   dl_no: "TN/KPW20/01877, TN/KPW21/01877",
-  colour_theme: "green",
+  colour_theme: "teal",
   logo: "/logos/ak-pharma-logo-square.jpeg",
   instagram_id: "",
   default_gst: 12,

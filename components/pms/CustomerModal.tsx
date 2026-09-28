@@ -97,10 +97,10 @@ export const CustomerModal = ({
 
         <div className="px-7 py-5">
           {/* Quick Bill */}
-          <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#e6efe9] bg-[#f7fbf8] px-4 py-3">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#e6efe9] bg-[#f5fbfa] px-4 py-3">
             <div className="flex items-center gap-3">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#e2f2e7]">
-                <Zap className="h-[18px] w-[18px] text-[#0a6127]" />
+                <Zap className="h-[18px] w-[18px] text-[#00695e]" />
               </span>
               <div>
                 <p className="text-[13.5px] font-semibold text-gray-900">Quick Bill</p>
@@ -114,7 +114,7 @@ export const CustomerModal = ({
                 type="checkbox"
                 checked={quickBill}
                 onChange={(e) => setQuickBill(e.target.checked)}
-                className="h-4 w-4 cursor-pointer accent-[#0a6127]"
+                className="h-4 w-4 cursor-pointer accent-[#00695e]"
               />
               Register for Quick Bill
             </label>
@@ -174,7 +174,7 @@ export const CustomerModal = ({
                       </span>
                     </span>
                     {customer.quick_bill && (
-                      <span className="rounded-md bg-[#e8f5ec] px-2 py-0.5 text-[10.5px] font-bold text-[#0a6127]">
+                      <span className="rounded-md bg-[#e5f4f1] px-2 py-0.5 text-[10.5px] font-bold text-[#00695e]">
                         QUICK BILL
                       </span>
                     )}
@@ -220,7 +220,7 @@ export const CustomerModal = ({
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter address"
                 rows={3}
-                className="w-full resize-y rounded-lg border border-[#d8dde3] bg-white py-2.5 pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31] focus:ring-2 focus:ring-[#0f7a31]/15"
+                className="w-full resize-y rounded-lg border border-[#d8dde3] bg-white py-2.5 pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/15"
               />
             </div>
           </div>
@@ -284,7 +284,7 @@ const IconField = ({
         inputMode={inputMode}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="h-11 w-full rounded-lg border border-[#d8dde3] bg-white pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31] focus:ring-2 focus:ring-[#0f7a31]/15"
+        className="h-11 w-full rounded-lg border border-[#d8dde3] bg-white pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/15"
       />
     </div>
   </div>

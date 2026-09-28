@@ -302,7 +302,7 @@ export const Billing = ({
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
       {/* ============================ LEFT: search + medicine ============== */}
       <section className="xl:col-span-5">
-        <ScreenHeading icon={<ShoppingCart className="h-[18px] w-[18px] text-[#0a6127]" />}>
+        <ScreenHeading icon={<ShoppingCart className="h-[18px] w-[18px] text-[#00695e]" />}>
           Billing ({batch ? saleNoun(batch.purchase_unit_type) : "Tablet"} Sale)
         </ScreenHeading>
 
@@ -333,7 +333,7 @@ export const Billing = ({
               }
             }}
             placeholder="Type medicine name, brand, salt or batch no"
-            className="h-[46px] w-full rounded-lg border border-[#d8dde3] bg-white pl-11 pr-10 text-[15px] outline-none transition placeholder:text-gray-400 focus:border-[#0f7a31] focus:ring-2 focus:ring-[#0f7a31]/12"
+            className="h-[46px] w-full rounded-lg border border-[#d8dde3] bg-white pl-11 pr-10 text-[15px] outline-none transition placeholder:text-gray-400 focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/12"
           />
           {query && (
             <button
@@ -355,7 +355,7 @@ export const Billing = ({
                     onMouseEnter={() => setHighlight(i)}
                     onClick={() => chooseMedicine(m)}
                     className={`flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-left transition ${
-                      i === highlight ? "bg-[#f2f8f4]" : "hover:bg-gray-50"
+                      i === highlight ? "bg-[#f0f8f6]" : "hover:bg-gray-50"
                     }`}
                   >
                     <span className="min-w-0">
@@ -373,7 +373,7 @@ export const Billing = ({
                       </span>
                     </span>
                     <span className="shrink-0 text-right">
-                      <span className="block text-[13px] font-bold text-[#0a6127]">
+                      <span className="block text-[13px] font-bold text-[#00695e]">
                         {m.total_stock} {b ? unitNoun(b.purchase_unit_type, b.pack_size) : ""}
                       </span>
                       <ScheduleBadge schedule={m.schedule} />
@@ -404,7 +404,7 @@ export const Billing = ({
             <div className="flex flex-wrap items-start justify-between gap-4 rounded-lg bg-[#fafbfc] p-3.5">
               <div className="min-w-0 flex-1">
                 <p className="text-[16px] font-bold leading-tight">
-                  <span className="text-[#0a6127]">{selected.generic_name.toUpperCase()}</span>{" "}
+                  <span className="text-[#00695e]">{selected.generic_name.toUpperCase()}</span>{" "}
                   <span className="text-gray-800">{batch.purchase_unit_type === "Bottle" ? "BOTTLE" : batch.purchase_unit_type === "Piece" ? "PIECE" : "TABLET"}</span>
                 </p>
                 <p className="mt-1.5 text-[12.5px] text-gray-600">Salt: {selected.salt}</p>
@@ -428,7 +428,7 @@ export const Billing = ({
 
               <div className="shrink-0 text-center">
                 <p className="text-[11.5px] text-gray-500">Available Stock</p>
-                <p className="text-[30px] font-extrabold leading-tight text-[#0a6127]">
+                <p className="text-[30px] font-extrabold leading-tight text-[#00695e]">
                   {batch.stock_qty}
                 </p>
                 <p className="text-[13px] font-semibold text-gray-700">{unitWord}</p>
@@ -471,7 +471,7 @@ export const Billing = ({
                   />
                   <button
                     onClick={() => setQty((q) => q + 1)}
-                    className="flex h-10 w-10 cursor-pointer items-center justify-center bg-[#0f7a31] text-white transition hover:bg-[#0d7530]"
+                    className="flex h-10 w-10 cursor-pointer items-center justify-center bg-[#007f72] text-white transition hover:bg-[#00736a]"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -484,7 +484,7 @@ export const Billing = ({
                       onClick={() => setQty(n)}
                       className={`min-w-[34px] cursor-pointer rounded-md border px-2 py-1 text-[12px] font-semibold transition ${
                         qty === n
-                          ? "border-[#0f7a31] bg-[#e8f5ec] text-[#0a6127]"
+                          ? "border-[#007f72] bg-[#e5f4f1] text-[#00695e]"
                           : "border-[#dfe3e7] text-gray-700 hover:bg-gray-50"
                       }`}
                     >
@@ -506,17 +506,17 @@ export const Billing = ({
                     onChange={(e) => setPriceOverride(Number(e.target.value) || 0)}
                     onBlur={() => setEditingPrice(false)}
                     onKeyDown={(e) => e.key === "Enter" && setEditingPrice(false)}
-                    className="w-full rounded-md border border-[#0f7a31] px-2 py-1 text-[26px] font-extrabold text-[#0a6127] outline-none"
+                    className="w-full rounded-md border border-[#007f72] px-2 py-1 text-[26px] font-extrabold text-[#00695e] outline-none"
                   />
                 ) : (
                   <div className="flex items-center gap-2">
-                    <span className="text-[28px] font-extrabold leading-none text-[#0a6127]">
+                    <span className="text-[28px] font-extrabold leading-none text-[#00695e]">
                       {amount(perUnit)}
                     </span>
                     <button
                       onClick={() => setEditingPrice(true)}
                       aria-label="Edit price"
-                      className="cursor-pointer text-gray-400 transition hover:text-[#0a6127]"
+                      className="cursor-pointer text-gray-400 transition hover:text-[#00695e]"
                     >
                       <Pencil className="h-4 w-4" />
                     </button>
@@ -538,7 +538,7 @@ export const Billing = ({
               {/* Amount */}
               <div className="rounded-lg border border-[#e8ebee] p-3">
                 <p className="mb-2 text-[12.5px] font-medium text-gray-700">Amount (₹)</p>
-                <p className="text-[28px] font-extrabold leading-none text-[#0a6127]">
+                <p className="text-[28px] font-extrabold leading-none text-[#00695e]">
                   {amount(lineAmount)}
                 </p>
                 <p className="mt-2 text-[11.5px] text-gray-500">
@@ -548,7 +548,7 @@ export const Billing = ({
             </div>
 
             {/* Summary strip + add to bill */}
-            <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-lg bg-[#f2f8f4] px-4 py-3">
+            <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-lg bg-[#f0f8f6] px-4 py-3">
               <div>
                 <p className="text-[11px] text-gray-500">Purchase Unit</p>
                 <p className="text-[13px] font-bold text-gray-900">
@@ -579,13 +579,13 @@ export const Billing = ({
               </div>
               <div>
                 <p className="text-[11px] text-gray-500">Discount</p>
-                <p className="text-[13px] font-bold text-[#0a6127]">
+                <p className="text-[13px] font-bold text-[#00695e]">
                   {amount(round2(unitDiscount * qty))} ({unitDiscountPct.toFixed(0)}%)
                 </p>
               </div>
               <button
                 onClick={addToBill}
-                className="ml-auto flex cursor-pointer items-center gap-2 rounded-lg bg-[#0a6127] px-5 py-3 text-[13.5px] font-bold text-white transition hover:bg-[#0d7530]"
+                className="ml-auto flex cursor-pointer items-center gap-2 rounded-lg bg-[#00695e] px-5 py-3 text-[13.5px] font-bold text-white transition hover:bg-[#00736a]"
               >
                 <Plus className="h-4 w-4" /> ADD TO BILL (F5)
               </button>
@@ -658,7 +658,7 @@ export const Billing = ({
                         type="number"
                         value={line.qty}
                         onChange={(e) => changeLineQty(line.key, Number(e.target.value) || 1)}
-                        className="mx-auto block h-7 w-[42px] rounded-md border border-[#e3e7ea] text-center text-[12.5px] font-bold outline-none transition focus:border-[#0f7a31]"
+                        className="mx-auto block h-7 w-[42px] rounded-md border border-[#e3e7ea] text-center text-[12.5px] font-bold outline-none transition focus:border-[#007f72]"
                       />
                     </td>
                     <td className="px-1.5 py-3 text-right text-[12.5px] font-semibold text-gray-800">
@@ -752,7 +752,7 @@ export const Billing = ({
       {/* ============================ RIGHT: bill summary ================== */}
       <section className="xl:col-span-3">
         <Card className="p-4">
-          <h3 className="mb-3.5 text-[14px] font-bold uppercase tracking-wide text-[#0a6127]">
+          <h3 className="mb-3.5 text-[14px] font-bold uppercase tracking-wide text-[#00695e]">
             Bill Summary
           </h3>
 
@@ -769,7 +769,7 @@ export const Billing = ({
 
           <div className="mt-4 flex items-center justify-between border-t border-[#eef1f3] pt-4">
             <span className="text-[16px] font-bold text-gray-900">TOTAL</span>
-            <span className="text-[24px] font-extrabold text-[#0a6127]">{money(payable)}</span>
+            <span className="text-[24px] font-extrabold text-[#00695e]">{money(payable)}</span>
           </div>
 
           <div className="mt-4 space-y-3">
@@ -780,7 +780,7 @@ export const Billing = ({
                 value={received}
                 onChange={(e) => setReceived(e.target.value)}
                 placeholder="0.00"
-                className="h-9 w-[96px] rounded-lg border border-[#d8dde3] px-2.5 text-right text-[13px] font-semibold outline-none focus:border-[#0f7a31]"
+                className="h-9 w-[96px] rounded-lg border border-[#d8dde3] px-2.5 text-right text-[13px] font-semibold outline-none focus:border-[#007f72]"
               />
             </div>
             <div className="flex items-center justify-between gap-3">
@@ -797,13 +797,13 @@ export const Billing = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-[12.5px] text-gray-700">Change (₹)</span>
-              <span className="text-[18px] font-extrabold text-[#0a6127]">{money(change)}</span>
+              <span className="text-[18px] font-extrabold text-[#00695e]">{money(change)}</span>
             </div>
           </div>
 
           <button
             onClick={startCheckout}
-            className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#0a6127] py-3.5 text-[13.5px] font-bold uppercase tracking-wide text-white transition hover:bg-[#0d7530]"
+            className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#00695e] py-3.5 text-[13.5px] font-bold uppercase tracking-wide text-white transition hover:bg-[#00736a]"
           >
             <CreditCard className="h-[18px] w-[18px]" /> Pay &amp; Print (F12)
           </button>
@@ -813,7 +813,7 @@ export const Billing = ({
               onClick={holdBill}
               className="flex cursor-pointer flex-col items-center gap-1 rounded-lg border border-[#e3e7ea] px-1 py-2.5 text-[11.5px] font-semibold text-gray-700 transition hover:bg-gray-50"
             >
-              <PauseCircle className="h-4 w-4 text-[#0a6127]" />
+              <PauseCircle className="h-4 w-4 text-[#00695e]" />
               <span className="leading-tight">
                 Hold Bill
                 <br />
@@ -896,7 +896,7 @@ export const Billing = ({
       />
 
       {notice && (
-        <div className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-xl bg-[#0a6127] px-5 py-3 text-sm font-semibold text-white shadow-xl">
+        <div className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-xl bg-[#00695e] px-5 py-3 text-sm font-semibold text-white shadow-xl">
           {notice}
         </div>
       )}
@@ -915,7 +915,7 @@ const Row = ({
 }) => (
   <div className="flex items-center justify-between">
     <span className="text-gray-600">{label}</span>
-    <span className={`font-semibold ${tone === "green" ? "text-[#0a6127]" : "text-gray-900"}`}>
+    <span className={`font-semibold ${tone === "green" ? "text-[#00695e]" : "text-gray-900"}`}>
       {value}
     </span>
   </div>

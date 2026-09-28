@@ -19,7 +19,7 @@ const DEFAULT_SETTINGS = {
   email: "akaravinthan2413@gmail.com",
   gstin: "33ABCDE1234F1Z5",
   dlNo: "TN/KPW20/01877, TN/KPW21/01877",
-  colourTheme: "green",
+  colourTheme: "teal",
   logo: "/logos/ak-pharma-logo-square.jpeg",
   instagramId: "",
   defaultGst: "12",
