@@ -2,7 +2,7 @@
   "name": "AK Pharma - Pharmacy Management System",
   "short_name": "AK Pharma",
   "description": "AK PHARMA Point of Sale, Billing & Inventory Management",
-  "start_url": "/pos/admin/secure/control-panel/ak-pharma",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#02222d",
