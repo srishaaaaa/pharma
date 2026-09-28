@@ -11,13 +11,17 @@ const db = drizzle(pool, { schema });
 
 const DEFAULT_SETTINGS = {
   id: 1,
-  shopName: "PMBJK MAKKAL MARUNDHAGAM",
-  address:
-    "Pradhan Mantri Bhartiya Janaushadhi Kendra, Door No.4/106, MGR Street, Srinivasapuram, Paraniputhur, Chennai - 600122",
-  phone: "8056552022",
-  email: "makkalmarundhangam122@gmail.com",
+  shopName: "AK PHARMA",
+  fullName: "Aravinthan A",
+  address: "NO 2 , Venugopalapuram , kill nachipattu post , Tiruvannamalai 606 611",
+  phone: "7259103278",
+  shopContactNumber: "",
+  email: "akaravinthan2413@gmail.com",
   gstin: "33ABCDE1234F1Z5",
   dlNo: "TN/KPW20/01877, TN/KPW21/01877",
+  colourTheme: "green",
+  logo: "/logos/ak-pharma-logo-square.jpeg",
+  instagramId: "",
   defaultGst: "12",
   lowStockThreshold: 20,
   expiryAlertMonths: 6,
@@ -45,9 +49,9 @@ const SEED_ROWS = [
 ];
 
 const SEED_CUSTOMERS = [
-  { id: "PMBJ000001", name: "Karthik", phone: "7350179069", address: "Anaimalai, Coimbatore", doctorName: "Dr. R. Mohan", quickBill: true },
-  { id: "PMBJ000002", name: "Priya S", phone: "9865321470", address: "Pollachi Main Road", doctorName: "Dr. S. Latha", quickBill: true },
-  { id: "PMBJ000003", name: "Ramesh Kumar", phone: "9791234560", address: "Thirumurthy Nagar", doctorName: "", quickBill: false },
+  { id: "AKP000001", name: "Karthik", phone: "7350179069", address: "Anaimalai, Coimbatore", doctorName: "Dr. R. Mohan", quickBill: true },
+  { id: "AKP000002", name: "Priya S", phone: "9865321470", address: "Pollachi Main Road", doctorName: "Dr. S. Latha", quickBill: true },
+  { id: "AKP000003", name: "Ramesh Kumar", phone: "9791234560", address: "Thirumurthy Nagar", doctorName: "", quickBill: false },
 ];
 
 async function seed() {

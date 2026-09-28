@@ -1,4 +1,4 @@
-# MAKKAL MARUNDHAGAM — Pharmacy Management System
+# AK PHARMA — Pharmacy Management System
 
 A pharmacy management system (POS, purchase, inventory, reports) built to the client's
 UI specification. It handles billing with box mapping, purchase entry with automatic
@@ -40,7 +40,7 @@ manual discount on top.
 
 Pressing **Pay & Print (F12)** opens the Customer Details dialog (Quick Bill registration,
 existing-customer lookup, name, phone, address, doctor) before the bill is printed.
-Customer IDs use the client's format: `PMBJ000001`.
+Customer IDs use the client's format: `AKP000001`.
 
 ## Purchase calculations
 
@@ -96,7 +96,7 @@ npm run dev
 
 Open http://localhost:3000.
 
-- POS terminal: `/pos/admin/secure/control-panel/pmbjk-makkal-marundhagam`
+- POS terminal: `/pos/admin/secure/control-panel/ak-pharma`
 - Printable bill: `/invoice/[bill-no]`
 - Public store page: `/`
 
@@ -114,7 +114,7 @@ ship in the client bundle — treat them as UI gates, not real secrets.
 
 ## Data storage
 
-Everything lives in `localStorage` under `makkal_marundhagam_pms_v2`, seeded with a
+Everything lives in `localStorage` under `ak_pharma_pms_v2`, seeded with a
 starter catalogue on first run. Data is per-device; **Settings → Download backup /
 Restore backup** moves it between machines. For multi-device sync, swap `lib/store.ts`
 for a remote implementation with the same API surface.
@@ -123,7 +123,7 @@ for a remote implementation with the same API surface.
 
 ```
 app/
-  pos/admin/secure/control-panel/pmbjk-makkal-marundhagam/page.tsx   app shell
+  pos/admin/secure/control-panel/ak-pharma/page.tsx   app shell
   invoice/[id]/                                                     printable bill
 components/pms/       Sidebar, TopBar, and one component per screen
 lib/
@@ -136,6 +136,6 @@ lib/
 
 ## License
 
-© 2026 PMBJK MAKKAL MARUNDHAGAM. All Rights Reserved.
+© 2026 AK PHARMA. All Rights Reserved.
 
 Powered by [Cenexa Systems](https://www.cenexasystems.com/).

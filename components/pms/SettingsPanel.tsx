@@ -51,7 +51,7 @@ export const SettingsPanel = ({
   const handleBackup = () => {
     downloadBlob(
       new Blob([exportBackup()], { type: "application/json" }),
-      `makkal-marundhagam-backup-${new Date().toISOString().slice(0, 10)}.json`,
+      `ak-pharma-backup-${new Date().toISOString().slice(0, 10)}.json`,
     );
   };
 

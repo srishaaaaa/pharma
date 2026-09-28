@@ -12,7 +12,7 @@ type InstallPromptEvent = Event & {
 
 /* Auth lives in browser storage, which is outside React — subscribe to it
    instead of copying it into state from an effect. */
-const AUTH_KEYS = ["pos_authorized", "makkal_marundhagam_session"];
+const AUTH_KEYS = ["pos_authorized", "ak_pharma_session"];
 const subscribeAuth = (onChange: () => void) => {
   const timer = setInterval(onChange, 1000);
   window.addEventListener("storage", onChange);
@@ -114,7 +114,7 @@ export default function PWAHandler() {
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="text-[11px] sm:text-xs font-black tracking-tight text-white uppercase truncate">
-          Install PMBJK MAKKAL MARUNDHAGAM
+          Install AK PHARMA
         </h4>
         <p className="text-[9px] sm:text-[10px] text-gray-300 font-semibold truncate">
           Add app for fast offline access

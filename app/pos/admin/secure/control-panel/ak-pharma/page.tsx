@@ -25,7 +25,7 @@ import { ExpiryAlert } from "@/components/pms/ExpiryAlert";
 import { SettingsPanel } from "@/components/pms/SettingsPanel";
 import { Toast } from "@/components/pms/ui";
 
-const SESSION_KEY = "makkal_marundhagam_session";
+const SESSION_KEY = "ak_pharma_session";
 
 export default function PharmacyManagementSystem() {
   const [role, setRole] = useState<"admin" | "staff" | null>(null);

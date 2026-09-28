@@ -1,7 +1,7 @@
 "use client";
 
 /* ==========================================================================
-   MAKKAL MARUNDHAGAM — local data store (browser localStorage)
+   AK PHARMA — local data store (browser localStorage)
    ========================================================================== */
 
 import {
@@ -20,7 +20,7 @@ import {
 } from "./types";
 import { calcBillTotals, calcIncludedGst, round2 } from "./calc";
 
-const STORAGE_KEY = "makkal_marundhagam_pms_v2";
+const STORAGE_KEY = "ak_pharma_pms_v2";
 
 export const uid = (): string => {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
@@ -34,13 +34,17 @@ const nowIso = () => new Date().toISOString();
    ------------------------------------------------------------------------- */
 
 export const DEFAULT_SETTINGS: ShopSettings = {
-  shop_name: "PMBJK MAKKAL MARUNDHAGAM",
-  address:
-    "Pradhan Mantri Bhartiya Janaushadhi Kendra, Door No.4/106, MGR Street, Srinivasapuram, Paraniputhur, Chennai - 600122",
-  phone: "8056552022",
-  email: "makkalmarundhangam122@gmail.com",
+  shop_name: "AK PHARMA",
+  full_name: "Aravinthan A",
+  address: "NO 2 , Venugopalapuram , kill nachipattu post , Tiruvannamalai 606 611",
+  phone: "7259103278",
+  shop_contact_number: "",
+  email: "akaravinthan2413@gmail.com",
   gstin: "33ABCDE1234F1Z5",
   dl_no: "TN/KPW20/01877, TN/KPW21/01877",
+  colour_theme: "green",
+  logo: "/logos/ak-pharma-logo-square.jpeg",
+  instagram_id: "",
   default_gst: 12,
   low_stock_threshold: 20,
   expiry_alert_months: 6,
@@ -143,9 +147,9 @@ const buildSeed = (): Store => {
   });
 
   const customers: Customer[] = [
-    { id: "PMBJ000001", name: "Karthik", phone: "7350179069", address: "Anaimalai, Coimbatore", doctor_name: "Dr. R. Mohan", quick_bill: true, created_at: created },
-    { id: "PMBJ000002", name: "Priya S", phone: "9865321470", address: "Pollachi Main Road", doctor_name: "Dr. S. Latha", quick_bill: true, created_at: created },
-    { id: "PMBJ000003", name: "Ramesh Kumar", phone: "9791234560", address: "Thirumurthy Nagar", doctor_name: "", quick_bill: false, created_at: created },
+    { id: "AKP000001", name: "Karthik", phone: "7350179069", address: "Anaimalai, Coimbatore", doctor_name: "Dr. R. Mohan", quick_bill: true, created_at: created },
+    { id: "AKP000002", name: "Priya S", phone: "9865321470", address: "Pollachi Main Road", doctor_name: "Dr. S. Latha", quick_bill: true, created_at: created },
+    { id: "AKP000003", name: "Ramesh Kumar", phone: "9791234560", address: "Thirumurthy Nagar", doctor_name: "", quick_bill: false, created_at: created },
   ];
 
   return {
@@ -245,9 +249,9 @@ const mutate = (fn: (store: Store) => void): void => {
    ID generators
    ------------------------------------------------------------------------- */
 
-/** Customer ID — client format: PMBJ000001 */
+/** Customer ID — client format: AKP000001 */
 export const nextCustomerId = (store: Store): string =>
-  `PMBJ${String(store.counters.customer + 1).padStart(6, "0")}`;
+  `AKP${String(store.counters.customer + 1).padStart(6, "0")}`;
 
 /** Bill number — auto generated, client format: B000125 */
 export const peekBillNo = (): string => {

@@ -1,10 +1,10 @@
-const CACHE_NAME = 'pmbjk-makkal-marundhagam-pos-v1';
+const CACHE_NAME = 'ak-pharma-pos-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',
   '/logo.jpeg',
   '/icon.png',
-  '/pos/admin/secure/control-panel/pmbjk-makkal-marundhagam'
+  '/pos/admin/secure/control-panel/ak-pharma'
 ];
 
 self.addEventListener('install', (event) => {

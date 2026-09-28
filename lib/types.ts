@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MAKKAL MARUNDHAGAM — Pharmacy Management System
+   AK PHARMA — Pharmacy Management System
    Data model
    ========================================================================== */
 
@@ -96,7 +96,7 @@ export type MedicineWithBatches = Medicine & {
 };
 
 export type Customer = {
-  /** Client format: PMBJ000001 */
+  /** Client format: AKP000001 */
   id: string;
   name: string;
   phone: string;

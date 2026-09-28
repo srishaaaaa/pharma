@@ -22,6 +22,13 @@
       "when": 1789496746948,
       "tag": "0002_stormy_wild_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790589758565,
+      "tag": "0003_add_new_shop_details",
+      "breakpoints": true
     }
   ]
 }

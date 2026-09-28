@@ -52,7 +52,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.jpeg" alt="" className="mb-2 h-12 w-12 object-contain grayscale" />
           <h1 className="text-[13px] font-bold uppercase">
-            {shop?.shop_name || "PMBJK MAKKAL MARUNDHAGAM"}
+            {shop?.shop_name || "AK PHARMA"}
           </h1>
           <p className="mt-1 text-[10px] leading-tight max-w-[200px]">
             {shop?.address}

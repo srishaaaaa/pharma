@@ -7,14 +7,14 @@ export default function Home() {
       <header className="border-b border-black/10 py-6 px-6 sm:px-12 flex justify-center items-center bg-white/90 backdrop-blur-md sticky top-0 z-40">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-xs p-1 border border-[#0a6127]/30">
-            <img src="/logo.jpeg" alt="PMBJK MAKKAL MARUNDHAGAM Logo" className="w-full h-full object-contain" />
+            <img src="/logo.jpeg" alt="AK PHARMA Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <span className="text-sm font-black text-[#0a6127] tracking-wider uppercase block">
-              PMBJK MAKKAL MARUNDHAGAM
+              AK PHARMA
             </span>
             <span className="text-[9px] text-[#02222d] font-bold tracking-widest block uppercase -mt-0.5">
-              Anaimalai
+              Tiruvannamalai
             </span>
           </div>
         </div>
@@ -30,7 +30,7 @@ export default function Home() {
           </span>
 
           <h1 className="text-3xl font-black text-[#0a6127] leading-tight tracking-tight mb-2">
-            PMBJK MAKKAL MARUNDHAGAM
+            AK PHARMA
           </h1>
           <p className="text-xs text-[#02222d] font-black tracking-widest uppercase mb-8">
             All Medicines & Surgical Items Available
@@ -52,7 +52,7 @@ export default function Home() {
               <div>
                 <p className="text-[10px] font-bold text-black/50 uppercase tracking-wider mb-0.5">Location</p>
                 <p className="text-[#1A1A1A] font-bold">
-                  Anaimalai, Tamil Nadu
+                  Tiruvannamalai, Tamil Nadu
                 </p>
               </div>
             </div>
@@ -62,7 +62,7 @@ export default function Home() {
               <div>
                 <p className="text-[10px] font-bold text-black/50 uppercase tracking-wider mb-0.5">Address</p>
                 <p className="text-[#1A1A1A] leading-relaxed">
-                  Near Masaniamman Temple West Entrance, Anaimalai
+                  NO 2, Venugopalapuram, Kill Nachipattu Post, Tiruvannamalai 606 611
                 </p>
               </div>
             </div>
@@ -72,7 +72,7 @@ export default function Home() {
               <div>
                 <p className="text-[10px] font-bold text-black/50 uppercase tracking-wider mb-0.5">Phone Numbers</p>
                 <p className="text-[#1A1A1A]">
-                  +91 73390 40439 / +91 96266 80930
+                  +91 72591 03278
                 </p>
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-black/10 py-6 text-center bg-white">
         <p className="text-[10px] font-bold text-[#0a6127] tracking-widest uppercase">
-          PMBJK MAKKAL MARUNDHAGAM • Anaimalai
+          AK PHARMA • Tiruvannamalai
         </p>
         <p className="text-[9px] font-semibold text-black/40 uppercase tracking-wider mt-1">
           © {new Date().getFullYear()} All Rights Reserved • Powered by Cenexa Systems

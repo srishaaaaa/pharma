@@ -394,7 +394,7 @@ const CustomerFormModal = ({
       open
       onClose={onClose}
       title={customer ? "Edit Customer" : "Add Customer"}
-      subtitle={customer ? customer.id : "A customer ID (PMBJ000001) is generated automatically"}
+      subtitle={customer ? customer.id : "A customer ID (AKP000001) is generated automatically"}
       width="max-w-2xl"
       footer={
         <>

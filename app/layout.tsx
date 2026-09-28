@@ -19,13 +19,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "PMBJK MAKKAL MARUNDHAGAM - POS",
-  description: "PMBJK MAKKAL MARUNDHAGAM Billing, Inventory & Digital Invoices",
+  title: "AK PHARMA - POS",
+  description: "AK PHARMA Billing, Inventory & Digital Invoices",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "PMBJK MAKKAL MARUNDHAGAM",
+    title: "AK PHARMA",
   },
   icons: {
     icon: "/logo.jpeg",
@@ -48,7 +48,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="PMBJK MAKKAL MARUNDHAGAM" />
+        <meta name="apple-mobile-web-app-title" content="AK PHARMA" />
         <link rel="apple-touch-icon" href="/logo.jpeg" />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>

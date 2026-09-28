@@ -78,12 +78,12 @@ export const Sidebar = ({
           </button>
           <div className="flex items-center gap-2.5 rounded-xl bg-white px-3 py-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.jpeg" alt="Makkal Marundhagam" className="h-11 w-11 shrink-0 object-contain" />
+            <img src="/logo.jpeg" alt="AK Pharma" className="h-11 w-11 shrink-0 object-contain" />
             <div className="min-w-0 leading-none">
               <p className="text-[15px] font-extrabold leading-[1.1] tracking-tight text-[#0a6127]">
-                MAKKAL
+                AK
                 <br />
-                MARUNDHAGAM
+                PHARMA
               </p>
               <p className="mt-1 text-[7.5px] font-bold uppercase tracking-[0.12em] text-gray-500">
                 Pharmacy Management System
@@ -123,7 +123,7 @@ export const Sidebar = ({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.jpeg" alt="" className="h-7 w-7 object-contain opacity-90" />
           <div className="leading-tight">
-            <p className="text-[11.5px] font-semibold text-white/90">Makkal Marundhagam</p>
+            <p className="text-[11.5px] font-semibold text-white/90">AK Pharma</p>
             <p className="text-[10.5px] text-white/45">v1.0.0</p>
           </div>
         </div>

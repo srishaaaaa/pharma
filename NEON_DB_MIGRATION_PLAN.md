@@ -1,6 +1,6 @@
 # Neon DB Backend — Implementation Plan
 
-**Project:** PMBJK Makkal Marundhagam — Pharmacy Management System
+**Project:** AK Pharma — Pharmacy Management System
 **Goal:** Replace the browser‑only `localStorage` store with a **Neon (serverless Postgres)** backend so data is shared across devices, survives browser resets, and is queryable/backed‑up centrally.
 **Stack today:** Next.js 16.3 (App Router) · React 19 · TypeScript · Tailwind v4 · `lucide-react`. No database, no server data layer.
 
@@ -12,12 +12,12 @@
 
 | Concern | Today |
 |---|---|
-| Persistence | `window.localStorage["makkal_marundhagam_pms_v2"]`, one JSON blob |
+| Persistence | `window.localStorage["ak_pharma_pms_v2"]`, one JSON blob |
 | Data access | [`lib/store.ts`](lib/store.ts) — **synchronous** read/write, in‑memory `cache`, `version` counter |
 | Reactivity | `useSyncExternalStore(subscribe, …Snapshot, …empty)` — every write bumps `version`, all screens re‑render |
-| Data flow | Shell [page.tsx](app/pos/admin/secure/control-panel/pmbjk-makkal-marundhagam/page.tsx) reads all collections once, passes them down as props |
+| Data flow | Shell [page.tsx](app/pos/admin/secure/control-panel/ak-pharma/page.tsx) reads all collections once, passes them down as props |
 | Direct store calls in components | `Billing` (`peekBillNo`, `listHeldBills`, `saveHeldBills`, `submitBill`), `Purchase`/`Inventory` (`saveBatch`, `saveMedicine`, `deleteBatch`, `deleteMedicine`), `Customers` (`saveCustomer`, `deleteCustomer`), `Reports` (`deleteBill`, `listBatchRows`), `Settings` (`getSettings`, `saveSettings`, `saveSupplier`, `deleteSupplier`, `exportBackup`, `importBackup`, `resetStore`), `Invoice` (`getBill`, `getSettings`) |
-| Counters / IDs | `store.counters.bill` → `B000125`, `store.counters.customer` → `PMBJ000001` (in‑JSON integers) |
+| Counters / IDs | `store.counters.bill` → `B000125`, `store.counters.customer` → `AKP000001` (in‑JSON integers) |
 | Auth | Client‑side passcode compared against `NEXT_PUBLIC_ADMIN_PASSCODE` / `NEXT_PUBLIC_STAFF_PASSCODE` (ships in the bundle) |
 | Invoice sharing | `/invoice/[id]` only opens on the device that created the bill (data is local) |
 
@@ -80,7 +80,7 @@ Postgres DDL mapped from `lib/types.ts`. Money columns use `numeric(12,2)`; date
 ```sql
 -- Sequences drive the client-facing IDs (replace store.counters)
 CREATE SEQUENCE bill_seq     START WITH 125;   -- next bill => B000125
-CREATE SEQUENCE customer_seq START WITH 1;     -- next id   => PMBJ000001
+CREATE SEQUENCE customer_seq START WITH 1;     -- next id   => AKP000001
 
 CREATE TABLE suppliers (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -130,7 +130,7 @@ CREATE INDEX batches_medicine_idx ON batches (medicine_id);
 CREATE INDEX batches_exp_idx      ON batches (exp_date);
 
 CREATE TABLE customers (
-  id           text PRIMARY KEY,                  -- PMBJ000001 (formatted from customer_seq)
+  id           text PRIMARY KEY,                  -- AKP000001 (formatted from customer_seq)
   name         text NOT NULL,
   phone        text NOT NULL DEFAULT '',
   address      text NOT NULL DEFAULT '',
@@ -319,7 +319,7 @@ Create Neon project, set `DATABASE_URL`, install deps, add `drizzle.config.ts`. 
   export const useMedicines = () => useSWR('/api/medicines', fetcher);
   // ... bills, customers, suppliers, batches, settings
   ```
-- Rewrite the **shell** [page.tsx](app/pos/admin/secure/control-panel/pmbjk-makkal-marundhagam/page.tsx): replace the six `useSyncExternalStore` calls with SWR hooks. Show a loading state until first data arrives (the shell already has a `checking`/`Loading…` pattern to reuse). Provide a `mutateAll()` that revalidates every collection; pass it (or the specific `mutate`) down where `onChanged/onDone/onSaved` currently fire toasts, so a write refreshes the data too.
+- Rewrite the **shell** [page.tsx](app/pos/admin/secure/control-panel/ak-pharma/page.tsx): replace the six `useSyncExternalStore` calls with SWR hooks. Show a loading state until first data arrives (the shell already has a `checking`/`Loading…` pattern to reuse). Provide a `mutateAll()` that revalidates every collection; pass it (or the specific `mutate`) down where `onChanged/onDone/onSaved` currently fire toasts, so a write refreshes the data too.
 
 **Checkpoint:** app renders live data from Neon; toasts still fire.
 
