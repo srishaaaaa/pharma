@@ -29,6 +29,13 @@
       "when": 1790589758565,
       "tag": "0003_add_new_shop_details",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790590000000,
+      "tag": "0004_clear_placeholder_gst_details",
+      "breakpoints": true
     }
   ]
 }

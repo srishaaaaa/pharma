@@ -159,7 +159,9 @@ CREATE INDEX IF NOT EXISTS "bills_customer_idx" ON "bills" USING btree ("custome
 CREATE INDEX IF NOT EXISTS "medicines_generic_idx" ON "medicines" USING btree ("generic_name");
 
 -- AK Pharma shop settings (single row, id = 1).
--- GSTIN and DL No. are the existing values; change them in the app's Settings screen.
+-- GSTIN, DL No., Instagram ID and Shop Contact Number are intentionally
+-- empty placeholders until the owner supplies the real values; set them in
+-- the app's Settings screen.
 INSERT INTO "settings" (
   "id", "shop_name", "full_name", "address", "phone", "shop_contact_number", "email",
   "gstin", "dl_no", "colour_theme", "logo", "instagram_id",
@@ -168,6 +170,6 @@ INSERT INTO "settings" (
   1, 'AK PHARMA', 'Aravinthan A',
   'NO 2 , Venugopalapuram , kill nachipattu post , Tiruvannamalai 606 611',
   '7259103278', '', 'akaravinthan2413@gmail.com',
-  '33ABCDE1234F1Z5', 'TN/KPW20/01877, TN/KPW21/01877', 'teal',
+  '', '', 'teal',
   '/logos/ak-pharma-logo-square.jpeg', '', '12', 20, 6
 ) ON CONFLICT ("id") DO NOTHING;

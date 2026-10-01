@@ -17,8 +17,9 @@ const DEFAULT_SETTINGS = {
   phone: "7259103278",
   shopContactNumber: "",
   email: "akaravinthan2413@gmail.com",
-  gstin: "33ABCDE1234F1Z5",
-  dlNo: "TN/KPW20/01877, TN/KPW21/01877",
+  /* Blank until the owner supplies the real numbers. */
+  gstin: "",
+  dlNo: "",
   colourTheme: "teal",
   logo: "/logos/ak-pharma-logo-square.jpeg",
   instagramId: "",
