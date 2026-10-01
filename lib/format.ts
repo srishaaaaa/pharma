@@ -13,6 +13,41 @@ export const amount = (n: number | string): string =>
 export const qtyLabel = (n: number | string): string =>
   Number(n || 0).toLocaleString("en-IN");
 
+/** "1453.00" -> "ONE THOUSAND FOUR HUNDRED FIFTY THREE ONLY" (English words,
+    upper case, the style printed under "Net Amount" on a GST tax invoice). */
+const WORD_ONES = [
+  "", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE",
+  "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN",
+  "SEVENTEEN", "EIGHTEEN", "NINETEEN",
+];
+const WORD_TENS = ["", "", "TWENTY", "THIRTY", "FORTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY"];
+
+const twoDigitWords = (n: number): string =>
+  n < 20 ? WORD_ONES[n] : `${WORD_TENS[Math.floor(n / 10)]}${n % 10 ? ` ${WORD_ONES[n % 10]}` : ""}`;
+
+const threeDigitWords = (n: number): string => {
+  const h = Math.floor(n / 100);
+  const rest = n % 100;
+  return [h ? `${WORD_ONES[h]} HUNDRED` : "", rest ? twoDigitWords(rest) : ""]
+    .filter(Boolean)
+    .join(" ");
+};
+
+export const amountInWords = (value: number | string): string => {
+  const num = Math.floor(Math.abs(Number(value || 0)));
+  if (!num) return "ZERO";
+  const groups: string[] = [];
+  const crore = Math.floor(num / 10000000);
+  const lakh = Math.floor((num % 10000000) / 100000);
+  const thousand = Math.floor((num % 100000) / 1000);
+  const rest = num % 1000;
+  if (crore) groups.push(`${threeDigitWords(crore)} CRORE`);
+  if (lakh) groups.push(`${twoDigitWords(lakh)} LAKH`);
+  if (thousand) groups.push(`${threeDigitWords(thousand)} THOUSAND`);
+  if (rest) groups.push(threeDigitWords(rest));
+  return `${groups.join(" ")} ONLY`;
+};
+
 /** "2025-05" -> "May-25"  (the format the client used on slides 9, 11 and 17) */
 export const monthShort = (value: string): string => {
   if (!value) return "-";

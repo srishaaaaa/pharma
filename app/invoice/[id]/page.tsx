@@ -1,7 +1,54 @@
 import Link from "next/link";
 import { getBill, getSettings } from "@/lib/db/queries";
-import { amount, dateLong, money, monthShort, timeLabel } from "@/lib/format";
+import { amount, amountInWords, dateSlash, monthShort, money } from "@/lib/format";
+import type { Bill, BillItem } from "@/lib/types";
 import { InvoiceActions } from "./InvoiceActions";
+
+/* ==========================================================================
+   A4 GST Tax Invoice
+
+   Layout mirrors the sample bill the shop handed us: a boxed header with the
+   GST / Drug-licence numbers on the right, a "Tax Invoice" banner, the
+   customer block, a wide item grid (pack, mfr, batch, exp, MRP, qty, free,
+   rate, disc, GST%, amount, HSN), a totals block, the GST-rate breakup
+   table, net amount in words and the authorised-signature footer.
+   ========================================================================== */
+
+const GST_SLABS = [0, 5, 12, 18, 28];
+
+/** "15GM UNI" style pack descriptor — pack size + unit abbreviation. */
+const packLabel = (item: BillItem): string => {
+  const unit = item.purchase_unit_type === "Strip" ? "UNI" : item.purchase_unit_type.slice(0, 3).toUpperCase();
+  return `${item.pack_size || 1}${unit}`;
+};
+
+/** Manufacturer shown as an initial-style short code, e.g. "UNI" / "MAC". */
+const mfrLabel = (item: BillItem): string => {
+  const maker = item.manufacturer?.trim();
+  if (!maker) return "";
+  return maker.replace(/[^A-Za-z ]/g, "").trim().slice(0, 10);
+};
+
+const discPercent = (item: BillItem): number =>
+  item.line_mrp > 0 ? (item.line_discount / item.line_mrp) * 100 : 0;
+
+const totalQty = (bill: Bill): number => bill.items.reduce((sum, i) => sum + (Number(i.qty) || 0), 0);
+
+/** Sales value + tax contained within them, bucketed per GST slab. */
+const gstBreakup = (bill: Bill) =>
+  GST_SLABS.map((slab) => {
+    const lines = bill.items.filter((i) => Math.round(Number(i.gst_percent)) === slab);
+    const sales = lines.reduce((s, i) => s + (Number(i.line_amount) || 0), 0);
+    const tax = lines.reduce((s, i) => s + gstOf(i), 0);
+    return { slab, sales, tax };
+  });
+
+/** GST is already contained in the selling price (MRP-inclusive). */
+const gstOf = (item: BillItem): number => {
+  const pct = Number(item.gst_percent) || 0;
+  const amount = Number(item.line_amount) || 0;
+  return amount - amount / (1 + pct / 100);
+};
 
 export default async function InvoicePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -29,156 +76,221 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
     <div className="flex min-h-screen flex-col items-center bg-[#f7f8fa] px-4 py-8 print:bg-white print:p-0">
       <style>{`
         @media print {
-          @page { margin: 0; size: 72mm auto; }
+          @page { size: A4 portrait; margin: 8mm; }
           html, body {
             background: #fff !important;
-            width: 72mm !important;
+            width: auto !important;
             margin: 0 !important;
             padding: 0 !important;
-            font-family: monospace, sans-serif !important;
+            font-family: "Segoe UI", Arial, sans-serif !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
+          .invoice-sheet { width: 100% !important; padding: 0 !important; box-shadow: none !important; }
+          .inv-break { break-inside: avoid; page-break-inside: avoid; }
         }
       `}</style>
 
-      <div className="mb-5 flex w-full max-w-sm justify-end no-print">
+      <div className="mb-5 flex w-full max-w-3xl justify-end no-print">
         <InvoiceActions />
       </div>
 
-      <div className="w-[72mm] overflow-hidden bg-white px-3 py-4 print:w-[72mm] print:px-1.5 print:py-2 text-black font-mono mx-auto text-xs">
-        {/* Header */}
-        <div className="flex flex-col items-center border-b border-black pb-3 text-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.jpeg" alt="" className="mb-2 h-12 w-12 object-contain grayscale" />
-          <h1 className="text-[13px] font-bold uppercase">
-            {shop?.shop_name || "AK PHARMA"}
-          </h1>
-          <p className="mt-1 text-[10px] leading-tight max-w-[200px]">
-            {shop?.address}
-          </p>
-          <p className="mt-1 text-[10px]">
-            Ph: {shop?.phone}
-          </p>
-          {shop?.email && (
-            <p className="mt-0.5 text-[10px]">
-              Email: {shop?.email}
+      <div className="invoice-sheet w-full max-w-[210mm] bg-white p-4 text-black shadow-sm print:p-0">
+        {/* ---------- Header: shop identity left, GST / DL numbers right ---------- */}
+        <div className="flex items-start justify-between gap-6 border-b-2 border-black pb-2">
+          <div className="text-[10.5px] leading-[1.35]">
+            <h1 className="text-[20px] font-bold uppercase tracking-wide">{shop?.shop_name || "AK PHARMA"}</h1>
+            <p className="mt-0.5 max-w-[330px]">{shop?.address}</p>
+            {shop?.shop_contact_number && <p>Mobile: {shop.shop_contact_number}</p>}
+            {shop?.phone && <p>Phone: {shop.phone}</p>}
+          </div>
+          <div className="shrink-0 text-right text-[10px] font-bold leading-[1.5]">
+            <p>GST No: {shop?.gstin}</p>
+            <p>DL NO: {shop?.dl_no}</p>
+          </div>
+        </div>
+
+        {/* ---------- Tax Invoice banner + invoice meta ---------- */}
+        <div className="flex items-start justify-between gap-4 border-b border-black py-1.5 text-[10.5px]">
+          <div className="w-[34%]">
+            <p>Customer code : {bill.customer_id || ""}</p>
+            <p className="mt-3">PH :</p>
+            <p>Mob : {bill.customer_phone || ""}</p>
+            <p>DL No. :</p>
+            <p>GST No. :</p>
+          </div>
+
+          <div className="flex-1 text-center">
+            <h2 className="text-[17px] font-bold underline">Tax Invoice</h2>
+          </div>
+
+          <div className="w-[34%] text-[10.5px] leading-[1.5]">
+            <p>
+              Inv No : <span className="font-bold">{bill.id}</span>
+              <span className="float-right">Page No. : 1 / 1</span>
             </p>
-          )}
-          {shop?.gstin && (
-            <p className="mt-1 text-[9px]">
-              GSTIN: {shop?.gstin}
-            </p>
-          )}
-          {shop?.dl_no && (
-            <p className="mt-0.5 text-[9px]">
-              DL No: {shop?.dl_no}
-            </p>
-          )}
-        </div>
-
-        {/* Meta */}
-        <div className="border-b border-black py-3 text-[10px] leading-tight">
-          <div className="flex justify-between mb-1">
-            <span className="font-bold">Bill No:</span>
-            <span>{bill.id}</span>
-          </div>
-          <div className="flex justify-between mb-1">
-            <span className="font-bold">Date:</span>
-            <span>{dateLong(bill.bill_date)} {timeLabel(bill.created_at)}</span>
-          </div>
-          <div className="flex justify-between mb-1">
-            <span className="font-bold">Billed To:</span>
-            <span>{bill.customer_name || "Walk-in Customer"}</span>
-          </div>
-          {bill.customer_phone && (
-            <div className="flex justify-between mb-1">
-              <span className="font-bold">Mobile:</span>
-              <span>+91 {bill.customer_phone}</span>
-            </div>
-          )}
-          {bill.doctor_name && (
-            <div className="flex justify-between mb-1">
-              <span className="font-bold">Doctor:</span>
-              <span>{bill.doctor_name}</span>
-            </div>
-          )}
-          <div className="flex justify-between">
-            <span className="font-bold">Payment:</span>
-            <span>{bill.payment_method}</span>
+            <p>Date : {dateSlash(bill.bill_date)}</p>
+            <p>Sales Agent :</p>
+            <p>Cell : {bill.customer_phone || ""}</p>
+            <p>Due Date : {dateSlash(bill.bill_date)}</p>
+            <p>Cases :</p>
+            <p>Transport :</p>
           </div>
         </div>
 
-        {/* Items Header */}
-        <div className="border-b border-black py-1.5 flex text-[10px] font-bold">
-          <div className="w-[15%]">Qty</div>
-          <div className="w-[50%]">Item</div>
-          <div className="w-[15%] text-right">Price</div>
-          <div className="w-[20%] text-right">Total</div>
+        {/* ---------- Customer / invoice-to block ---------- */}
+        <div className="border-b border-black py-1.5 text-[10.5px] leading-[1.45]">
+          <p className="font-bold uppercase underline">{bill.customer_name || "Walk-in Customer"}</p>
+          {bill.customer_address && <p>{bill.customer_address}</p>}
+          {bill.doctor_name && <p>Ph: {bill.doctor_name}</p>}
+          <p className="mt-1">Tin No. : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GST No. :</p>
         </div>
 
-        {/* Items List */}
-        <div className="border-b border-black py-2">
-          {bill.items.map((item) => (
-            <div key={item.id} className="mb-2 text-[10px] flex items-start">
-              <div className="w-[15%] font-bold">{item.qty}</div>
-              <div className="w-[50%] pr-1 leading-tight">
-                <span className="font-bold">{item.generic_name}</span>
-                <br />
-                <span className="text-[9px]">
-                  Batch: {item.batch_no} | EXP: {monthShort(item.exp_date)}
-                </span>
-              </div>
-              <div className="w-[15%] text-right">{amount(item.per_unit_price)}</div>
-              <div className="w-[20%] text-right font-bold">{amount(item.line_amount)}</div>
-            </div>
-          ))}
-        </div>
+        {/* ---------- Items grid ---------- */}
+        <table className="w-full border-collapse text-[9.5px] leading-[1.3]">
+          <thead>
+            <tr className="bg-[#d9d9d9]">
+              {["No", "Product Name", "Pack", "Mfr", "Batch", "Exp", "MRP", "Qty", "Free", "Rate", "Disc", "GST%", "Amount", "HSN"].map((h) => (
+                <th key={h} className="border border-black px-1 py-1 text-center font-bold">{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {bill.items.map((item, index) => (
+              <tr key={item.id} className="align-top">
+                <td className="border border-black px-1 py-0.5 text-center">{index + 1}</td>
+                <td className="border border-black px-1 py-0.5">
+                  <p className="font-bold uppercase">{item.generic_name}</p>
+                  {item.brand_name && <p>{item.brand_name}</p>}
+                  <p className="text-[8.5px]">{item.schedule ? `[${item.schedule}]` : ""} Exp: {monthShort(item.exp_date)}</p>
+                </td>
+                <td className="border border-black px-1 py-0.5 text-center">{packLabel(item)}</td>
+                <td className="border border-black px-1 py-0.5 text-center">{mfrLabel(item)}</td>
+                <td className="border border-black px-1 py-0.5 text-center">{item.batch_no}</td>
+                <td className="border border-black px-1 py-0.5 text-center">{monthShort(item.exp_date)}</td>
+                <td className="border border-black px-1 py-0.5 text-right">{amount(item.mrp_per_unit)}</td>
+                <td className="border border-black px-1 py-0.5 text-right">{item.qty}</td>
+                <td className="border border-black px-1 py-0.5 text-right">0</td>
+                <td className="border border-black px-1 py-0.5 text-right">{amount(item.per_unit_price)}</td>
+                <td className="border border-black px-1 py-0.5 text-center">{amount(discPercent(item))}</td>
+                <td className="border border-black px-1 py-0.5 text-center">{amount(item.gst_percent)}</td>
+                <td className="border border-black px-1 py-0.5 text-right font-bold">{amount(item.line_amount)}</td>
+                <td className="border border-black px-1 py-0.5 text-center">{item.hsn_code}</td>
+              </tr>
+            ))}
+            <tr>
+              <td colSpan={13} className="border border-black px-1 py-1" />
+              <td className="border border-black" />
+            </tr>
+          </tbody>
+        </table>
 
-        {/* Totals — the shop asked us to hide the "Discount" line, so the
-             sub-total mirrors the grand total (sum of the item lines above)
-             instead of the MRP-based figure that made customers question the
-             gap. Taxable + GST still shown for the tax-return audit trail. */}
-        <div className="border-b border-black py-3 text-[10px] space-y-1">
-          <Row label={`Sub Total (${bill.items.length} Items)`} value={money(bill.grand_total)} />
-          <Row label="Taxable Amount" value={money(bill.taxable_amount)} />
-          <Row label={`GST (${bill.gst_percent}%)`} value={money(bill.gst_amount)} />
-          
-          <div className="flex items-center justify-between pt-1 mt-1 border-t border-dashed border-black">
-            <span className="text-[12px] font-bold">TOTAL</span>
-            <span className="text-[14px] font-bold">
-              {money(bill.grand_total)}
-            </span>
+        {/* ---------- Totals + GST breakup ---------- */}
+        <div className="inv-break mt-1 flex items-stretch text-[9.5px]">
+          <div className="w-[38%] border border-black p-1">
+            <p>Total Qty : {totalQty(bill)}</p>
+            <p className="mt-6">Total Items : {bill.items.length}</p>
           </div>
-          
-          <div className="pt-2">
-            <Row label="Received" value={money(bill.received_amount)} />
-            {bill.change_amount > 0 && (
-              <Row label="Change" value={money(bill.change_amount)} />
-            )}
+
+          <div className="w-[62%]">
+            <table className="w-full border-collapse">
+              <tbody>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Sub Total</td>
+                  <td className="w-[70px] border border-black px-1 py-0.5 text-right">{amount(bill.grand_total)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Discount</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Tax Amount</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(bill.gst_amount)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Freight</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Credit Note</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Debit Note</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-black px-1 py-0.5">Round off</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="inv-break mt-1 border border-black text-[9.5px]">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-[#d9d9d9]">
+                <th className="border border-black px-1 py-0.5" />
+                {gstBreakup(bill).map(({ slab }) => (
+                  <th key={slab} className="border border-black px-1 py-0.5 text-center">GST-{slab}%</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-black px-1 py-0.5">Sales</td>
+                {gstBreakup(bill).map(({ slab, sales }) => (
+                  <td key={`sales-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(sales)}</td>
+                ))}
+              </tr>
+              <tr>
+                <td className="border border-black px-1 py-0.5">GST/GST</td>
+                {gstBreakup(bill).map(({ slab, tax }) => (
+                  <td key={`tax-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(tax)}</td>
+                ))}
+              </tr>
+              <tr>
+                <td className="border border-black px-1 py-0.5">CGST</td>
+                {gstBreakup(bill).map(({ slab, tax }) => (
+                  <td key={`cgst-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(tax / 2)}</td>
+                ))}
+              </tr>
+              <tr>
+                <td className="border border-black px-1 py-0.5">SGST</td>
+                {gstBreakup(bill).map(({ slab, tax }) => (
+                  <td key={`sgst-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(tax / 2)}</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+          <div className="flex items-center justify-between border-t border-black px-1 py-0.5">
+            <span>Due bills :</span>
+            <span className="font-bold">Net Amount</span>
+          </div>
+          <div className="flex items-center justify-end px-1 py-1">
+            <span className="text-[17px] font-bold">{money(bill.grand_total)}</span>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="pt-4 text-center text-[9px] leading-tight">
-          <p className="font-bold uppercase text-[11px] mb-1">
-            Thank you for shopping!
-          </p>
-          <p className="mb-2">
-            GST is included in MRP. The GST % indicates applicable tax rate only.
-          </p>
-          <p className="font-bold uppercase">
-            Powered by Cenexa Systems
-          </p>
+        {/* ---------- Amount in words ---------- */}
+        <p className="mt-1 text-[9.5px] uppercase">{amountInWords(bill.grand_total)}</p>
+
+        {/* ---------- Terms + signature ---------- */}
+        <div className="inv-break mt-2 flex items-end justify-between gap-6 text-[9px] leading-[1.4]">
+          <div>
+            <p className="font-bold">Terms &amp; Conditions</p>
+            <p>1. Goods once sold will not be taken back.</p>
+            <p>2. Please check Batch No, Qty, Exp before taking delivery.</p>
+            <p>3. E&amp;O.E</p>
+          </div>
+          <div className="w-[46%] text-center">
+            <p className="font-bold">For {shop?.shop_name || "AK PHARMA"}</p>
+            <div className="mt-10 border-b border-black" />
+            <p>Authorised Signatory</p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-const Row = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-center justify-between">
-    <span>{label}</span>
-    <span>{value}</span>
-  </div>
-);
