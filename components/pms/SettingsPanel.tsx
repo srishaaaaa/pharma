@@ -8,6 +8,7 @@ import {
   importBackup,
   resetStore,
 } from "@/lib/store";
+import { THEMES, THEME_KEYS, resolveTheme } from "@/lib/format";
 import { deleteSupplier, saveSettings, saveSupplier } from "@/lib/actions";
 import { downloadBlob } from "@/lib/xlsx";
 import { Button, Card, Field, Modal, PageTitle, TextInput } from "./ui";
@@ -147,11 +148,86 @@ export const SettingsPanel = ({
                 placeholder="@yourinstagram"
               />
             </Field>
-            <Field label="Colour Theme">
-              <TextInput value={settings?.colour_theme ?? ""} onChange={(e) => set({ colour_theme: e.target.value })} placeholder="e.g., green, blue" />
+          </div>
+
+          <h3 className="mb-4 mt-6 text-[15px] font-bold text-gray-900">Appearance</h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Field
+              label="Colour Theme"
+              className="sm:col-span-2"
+              hint="Applied across the whole app. Takes effect after you save."
+            >
+              <div className="flex flex-wrap gap-2">
+                {THEME_KEYS.map((key) => {
+                  const tokens = THEMES[key].tokens;
+                  const active = resolveTheme(settings?.colour_theme) === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => set({ colour_theme: key })}
+                      aria-pressed={active}
+                      className={`flex cursor-pointer items-center gap-2 rounded-lg border-2 px-3 py-2 text-[13px] font-semibold transition ${
+                        active ? "border-[var(--c-primary)] bg-[var(--c-mint)]" : "border-[#e5e7eb] bg-white hover:border-[#c9d1d6]"
+                      }`}
+                    >
+                      <span className="flex gap-0.5">
+                        <span className="h-4 w-2 rounded-sm" style={{ background: tokens.primary }} />
+                        <span className="h-4 w-2 rounded-sm" style={{ background: tokens.deep }} />
+                        <span className="h-4 w-2 rounded-sm" style={{ background: tokens.mint }} />
+                      </span>
+                      {THEMES[key].label}
+                    </button>
+                  );
+                })}
+              </div>
             </Field>
-            <Field label="Logo">
-              <TextInput value={settings?.logo ?? ""} onChange={(e) => set({ logo: e.target.value })} placeholder="Logo URL or path" />
+
+            <Field
+              label="Logo"
+              className="sm:col-span-2"
+              hint="Shown in the sidebar. Use a path in /public (e.g. /logo.jpeg) or a full image URL."
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white p-1.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={settings?.logo || "/logo.jpeg"}
+                    alt="Logo preview"
+                    className="h-full w-full object-contain"
+                    onError={(e) => {
+                      e.currentTarget.style.opacity = "0.25";
+                    }}
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <TextInput
+                    value={settings?.logo ?? ""}
+                    onChange={(e) => set({ logo: e.target.value })}
+                    placeholder="/logo.jpeg"
+                  />
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {[
+                      { label: "Square", path: "/logos/ak-pharma-logo-square.jpeg" },
+                      { label: "Banner", path: "/logos/ak-pharma-logo-banner.jpeg" },
+                      { label: "Default", path: "/logo.jpeg" },
+                    ].map((preset) => (
+                      <button
+                        key={preset.path}
+                        type="button"
+                        onClick={() => set({ logo: preset.path })}
+                        className={`cursor-pointer rounded-md border px-2.5 py-1 text-[12px] font-medium transition ${
+                          settings?.logo === preset.path
+                            ? "border-[var(--c-primary)] bg-[var(--c-mint)] text-[var(--c-deep)]"
+                            : "border-[#d8dde3] bg-white text-gray-600 hover:bg-gray-50"
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </Field>
           </div>
 

@@ -1,27 +1,35 @@
 @import "tailwindcss";
 
 :root {
+  /* Theme tokens — declared first, and overwritten at runtime by ThemeApplier
+     when the owner picks a different theme in Settings. Defaults match the
+     AK Pharma teal. Everything below references these, never the reverse. */
+  --c-primary: #007f72;
+  --c-deep: #00695e;
+  --c-hover: #00736a;
+  --c-mint: #e5f4f1;
+
   /* Palette sampled from the client mockups */
   --brand-sidebar: #1a1d21;
   --brand-sidebar-2: #24282d;
-  --brand-green: #007f72;
-  --brand-deep: #00695e;
+  --brand-green: var(--c-primary);
+  --brand-deep: var(--c-deep);
   --brand-ink: #0b2b27;
   --surface: #f7f8fa;
   --line: #e5e7eb;
-  --primary: #007f72;
-  --secondary: #00695e;
+  --primary: var(--c-primary);
+  --secondary: var(--c-deep);
 }
 
 @theme {
   --color-brand-sidebar: #1a1d21;
-  --color-brand-green: #007f72;
-  --color-brand-deep: #00695e;
-  --color-brand-mint: #e5f4f1;
+  --color-brand-green: var(--c-primary);
+  --color-brand-deep: var(--c-deep);
+  --color-brand-mint: var(--c-mint);
   --color-surface: #f7f8fa;
   --color-line: #e5e7eb;
-  --color-primary: #007f72;
-  --color-secondary: #00695e;
+  --color-primary: var(--c-primary);
+  --color-secondary: var(--c-deep);
 }
 
 body {
@@ -60,7 +68,8 @@ input[type="number"] {
   .field {
     @apply w-full rounded-lg border border-[#d8dde3] bg-white px-3 py-2.5 text-sm text-gray-900
            outline-none transition placeholder:text-gray-400
-           focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/15;
+           focus:border-[var(--c-primary)]
+           focus:ring-2 focus:ring-[color-mix(in_srgb,var(--c-primary)_15%,transparent)];
   }
   .field-label {
     @apply mb-1.5 block text-[13px] font-medium text-gray-700;
@@ -69,8 +78,8 @@ input[type="number"] {
     @apply rounded-xl border border-[#e5e7eb] bg-white;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[#00695e] px-5 py-2.5
-           text-sm font-semibold text-white transition hover:bg-[#00736a]
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--c-deep)] px-5 py-2.5
+           text-sm font-semibold text-white transition hover:bg-[var(--c-hover)]
            disabled:cursor-not-allowed disabled:opacity-40;
   }
   .btn-ghost {

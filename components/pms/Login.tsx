@@ -30,7 +30,7 @@ export const Login = ({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.jpeg" alt="AK Pharma" className="h-16 w-16 object-contain" />
           <div className="text-center">
-            <p className="text-[19px] font-extrabold leading-tight tracking-tight text-[#00695e]">
+            <p className="text-[19px] font-extrabold leading-tight tracking-tight text-[var(--c-deep)]">
               AK PHARMA
             </p>
             <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-gray-500">
@@ -41,8 +41,8 @@ export const Login = ({
 
         <form onSubmit={submit} className="rounded-2xl bg-white p-6">
           <div className="mb-4 flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#e5f4f1]">
-              <ShieldCheck className="h-[18px] w-[18px] text-[#00695e]" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--c-mint)]">
+              <ShieldCheck className="h-[18px] w-[18px] text-[var(--c-deep)]" />
             </span>
             <div>
               <p className="text-[15px] font-bold text-gray-900">Secure Login</p>
@@ -61,7 +61,7 @@ export const Login = ({
                 setError("");
               }}
               placeholder="Passcode"
-              className="h-12 w-full rounded-lg border border-[#d8dde3] bg-white pl-10 pr-11 text-[15px] outline-none transition placeholder:text-gray-400 focus:border-[#007f72] focus:ring-2 focus:ring-[#007f72]/15"
+              className="h-12 w-full rounded-lg border border-[#d8dde3] bg-white pl-10 pr-11 text-[15px] outline-none transition placeholder:text-gray-400 focus:border-[var(--c-primary)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--c-primary)_15%,transparent)]"
             />
             <button
               type="button"
@@ -77,7 +77,7 @@ export const Login = ({
 
           <button
             type="submit"
-            className="mt-4 w-full cursor-pointer rounded-lg bg-[#00695e] py-3 text-[14px] font-bold text-white transition hover:bg-[#00736a]"
+            className="mt-4 w-full cursor-pointer rounded-lg bg-[var(--c-deep)] py-3 text-[14px] font-bold text-white transition hover:bg-[var(--c-hover)]"
           >
             Login
           </button>

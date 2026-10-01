@@ -2,6 +2,7 @@
 
 import React from "react";
 import { X } from "lucide-react";
+import { themeTokens } from "@/lib/format";
 
 /* ------------------------------- Section ------------------------------- */
 
@@ -33,7 +34,7 @@ export const ScreenHeading = ({
 }) => (
   <div className="mb-4 flex items-center gap-2.5">
     {icon}
-    <h2 className="text-[15px] font-bold uppercase tracking-wide text-[#00695e]">{children}</h2>
+    <h2 className="text-[15px] font-bold uppercase tracking-wide text-[var(--c-deep)]">{children}</h2>
   </div>
 );
 
@@ -48,6 +49,26 @@ export const Card = ({
 }) => (
   <div onClick={onClick} className={`rounded-xl border border-[#e5e7eb] bg-white ${className}`}>{children}</div>
 );
+
+/* --------------------------------------------------------------------------
+   Theme applier
+
+   The shell's Tailwind classes reference the --c-* custom properties rather
+   than literal hex, so writing those properties on <html> restyles every
+   screen at once. Runs on mount and again whenever the stored theme changes.
+   -------------------------------------------------------------------------- */
+export const ThemeApplier = ({ theme }: { theme?: string | null }) => {
+  React.useEffect(() => {
+    const tokens = themeTokens(theme);
+    const root = document.documentElement;
+    root.style.setProperty("--c-primary", tokens.primary);
+    root.style.setProperty("--c-deep", tokens.deep);
+    root.style.setProperty("--c-hover", tokens.hover);
+    root.style.setProperty("--c-mint", tokens.mint);
+  }, [theme]);
+
+  return null;
+};
 
 /* -------------------------------- Fields -------------------------------- */
 
@@ -103,7 +124,7 @@ export const Button = ({
   variant?: "primary" | "ghost" | "danger" | "blue";
 }) => {
   const styles: Record<string, string> = {
-    primary: "bg-[#00695e] text-white hover:bg-[#00736a]",
+    primary: "bg-[var(--c-deep)] text-white hover:bg-[var(--c-hover)]",
     ghost: "border border-[#d8dde3] bg-white text-gray-700 hover:bg-gray-50",
     danger: "border border-red-200 bg-white text-red-600 hover:bg-red-50",
     blue: "bg-[#1f6feb] text-white hover:bg-[#1a5fd0]",
@@ -142,7 +163,7 @@ export const Pill = ({
 }) => {
   const tones: Record<string, string> = {
     gray: "bg-gray-100 text-gray-700",
-    green: "bg-[#e5f4f1] text-[#00695e]",
+    green: "bg-[var(--c-mint)] text-[var(--c-deep)]",
     red: "bg-red-50 text-red-600",
     amber: "bg-amber-50 text-amber-700",
     blue: "bg-blue-50 text-blue-700",
@@ -263,7 +284,7 @@ export const StatTile = ({
     blue: "text-[#1f6feb] bg-[#eaf1fe]",
     amber: "text-[#d97706] bg-[#fef4e6]",
     red: "text-[#dc2626] bg-[#fdecec]",
-    green: "text-[#00695e] bg-[#e5f4f1]",
+    green: "text-[var(--c-deep)] bg-[var(--c-mint)]",
     gray: "text-gray-600 bg-gray-100",
   };
   return (
@@ -271,7 +292,7 @@ export const StatTile = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full cursor-pointer items-center gap-3.5 rounded-xl border border-[#e5e7eb] bg-white px-4 py-4 text-left transition hover:border-[#007f72]/40 hover:shadow-md"
+        className="flex w-full cursor-pointer items-center gap-3.5 rounded-xl border border-[#e5e7eb] bg-white px-4 py-4 text-left transition hover:border-[color-mix(in_srgb,var(--c-primary)_40%,transparent)] hover:shadow-md"
       >
         <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${tones[tone]}`}>{icon}</span>
         <div className="min-w-0 flex-1">
@@ -305,7 +326,7 @@ export const EmptyState = ({
 export const Toast = ({ message, tone = "green" }: { message: string; tone?: "green" | "red" }) => (
   <div
     className={`fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-xl ${
-      tone === "green" ? "bg-[#00695e]" : "bg-red-600"
+      tone === "green" ? "bg-[var(--c-deep)]" : "bg-red-600"
     }`}
   >
     {message}

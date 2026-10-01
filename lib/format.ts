@@ -1,4 +1,62 @@
 /* ==========================================================================
+   Theme presets
+
+   The POS shell used to hard-code the AK Pharma teal in ~90 Tailwind class
+   names, which made the settings colour picker a no-op. Colour now lives in
+   four CSS custom properties that `applyTheme()` writes onto <html>, and the
+   class names reference those properties, so changing the theme in Settings
+   restyles the whole app.
+   ========================================================================== */
+
+export type ThemeKey = "teal" | "green" | "blue" | "maroon" | "purple";
+
+export type ThemeTokens = {
+  /** Primary action colour — buttons, active nav, focus rings. */
+  primary: string;
+  /** Darker shade for headings and pressed states. */
+  deep: string;
+  /** Hover shade. */
+  hover: string;
+  /** Very light tint for chips and selected backgrounds. */
+  mint: string;
+};
+
+export const THEMES: Record<ThemeKey, { label: string; tokens: ThemeTokens }> = {
+  teal: {
+    label: "Teal",
+    tokens: { primary: "#007f72", deep: "#00695e", hover: "#00736a", mint: "#e5f4f1" },
+  },
+  green: {
+    label: "Green",
+    tokens: { primary: "#16a34a", deep: "#15803d", hover: "#15803d", mint: "#e7f6ec" },
+  },
+  blue: {
+    label: "Blue",
+    tokens: { primary: "#1f6feb", deep: "#1a4fb4", hover: "#1a5fd0", mint: "#eaf1fe" },
+  },
+  maroon: {
+    label: "Maroon",
+    tokens: { primary: "#9f1239", deep: "#7f1029", hover: "#881337", mint: "#fdeaef" },
+  },
+  purple: {
+    label: "Purple",
+    tokens: { primary: "#7c3aed", deep: "#6021c9", hover: "#6d28d9", mint: "#f0eafe" },
+  },
+};
+
+export const THEME_KEYS = Object.keys(THEMES) as ThemeKey[];
+
+export const DEFAULT_THEME: ThemeKey = "teal";
+
+/** Map whatever is stored in settings onto a known theme key. */
+export const resolveTheme = (value?: string | null): ThemeKey =>
+  (THEME_KEYS as string[]).includes((value || "").toLowerCase())
+    ? (value!.toLowerCase() as ThemeKey)
+    : DEFAULT_THEME;
+
+export const themeTokens = (value?: string | null): ThemeTokens => THEMES[resolveTheme(value)].tokens;
+
+/* ==========================================================================
    Display formatting helpers
    ========================================================================== */
 

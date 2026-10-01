@@ -23,7 +23,7 @@ import { Customers } from "@/components/pms/Customers";
 import { Reports } from "@/components/pms/Reports";
 import { ExpiryAlert } from "@/components/pms/ExpiryAlert";
 import { SettingsPanel } from "@/components/pms/SettingsPanel";
-import { Toast } from "@/components/pms/ui";
+import { Toast, ThemeApplier } from "@/components/pms/ui";
 
 const SESSION_KEY = "ak_pharma_session";
 
@@ -142,6 +142,7 @@ export default function PharmacyManagementSystem() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f7f8fa]">
+      <ThemeApplier theme={settings?.colour_theme} />
       <Sidebar
         active={screen}
         onSelect={(key) => {
@@ -152,6 +153,8 @@ export default function PharmacyManagementSystem() {
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         expiryCount={expiryCount}
+        logo={settings?.logo || "/logo.jpeg"}
+        shopName={settings?.shop_name || "AK PHARMA"}
       />
 
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
