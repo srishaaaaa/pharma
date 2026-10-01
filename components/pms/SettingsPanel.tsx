@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Save, Download, Upload, RotateCcw, Plus, Trash2, Pencil, Boxes } from "lucide-react";
 import type { MedicineWithBatches, ShopSettings, Supplier } from "@/lib/types";
 import {
@@ -26,6 +26,10 @@ export const SettingsPanel = ({
   const [settings, setSettings] = useState<ShopSettings | null>(initialSettings);
   const [supplierDraft, setSupplierDraft] = useState<Supplier | null>(null);
   const [addingSupplier, setAddingSupplier] = useState(false);
+
+  /* Re-sync when the server row changes after a save, otherwise the panel
+     keeps showing the pre-save draft. */
+  useEffect(() => setSettings(initialSettings), [initialSettings]);
 
   const set = (patch: Partial<ShopSettings>) => settings && setSettings({ ...settings, ...patch });
 
@@ -74,45 +78,80 @@ export const SettingsPanel = ({
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         {/* Shop details */}
         <Card className="p-5">
-          <h3 className="mb-4 text-[15px] font-bold text-gray-900">Shop Details</h3>
+          <h3 className="mb-1 text-[15px] font-bold text-gray-900">Shop Details</h3>
+          <p className="mb-4 text-[12px] text-gray-500">
+            These details print on every tax invoice. Leave a field blank and it stays off the bill.
+          </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Full Name" className="sm:col-span-2">
-              <TextInput value={settings?.full_name} onChange={(e) => set({ full_name: e.target.value })} />
+            <Field label="Owner / Full Name">
+              <TextInput
+                value={settings?.full_name ?? ""}
+                onChange={(e) => set({ full_name: e.target.value })}
+                placeholder="Aravinthan A"
+              />
             </Field>
-            <Field label="Shop name" className="sm:col-span-2">
-              <TextInput value={settings?.shop_name} onChange={(e) => set({ shop_name: e.target.value })} />
+            <Field label="Shop name">
+              <TextInput
+                value={settings?.shop_name ?? ""}
+                onChange={(e) => set({ shop_name: e.target.value })}
+                placeholder="AK PHARMA"
+              />
             </Field>
             <Field label="Address" className="sm:col-span-2">
-              <TextInput value={settings?.address} onChange={(e) => set({ address: e.target.value })} />
+              <TextInput
+                value={settings?.address ?? ""}
+                onChange={(e) => set({ address: e.target.value })}
+                placeholder="Shop address"
+              />
             </Field>
-            <Field label="Phone Number">
-              <TextInput value={settings?.phone} onChange={(e) => set({ phone: e.target.value })} />
+            <Field label="Phone Number" hint="Printed as “Phone” on the invoice">
+              <TextInput
+                value={settings?.phone ?? ""}
+                onChange={(e) => set({ phone: e.target.value })}
+                placeholder="7259103278"
+              />
             </Field>
-            <Field label="Shop Contact Number">
-              <TextInput value={settings?.shop_contact_number} onChange={(e) => set({ shop_contact_number: e.target.value })} />
+            <Field label="Shop Contact Number" hint="Printed as “Mobile” on the invoice">
+              <TextInput
+                value={settings?.shop_contact_number ?? ""}
+                onChange={(e) => set({ shop_contact_number: e.target.value })}
+                placeholder="Leave blank until confirmed"
+              />
             </Field>
-            <Field label="Email">
+            <Field label="Email" className="sm:col-span-2">
               <TextInput
                 type="email"
-                value={settings?.email || ""}
+                value={settings?.email ?? ""}
                 onChange={(e) => set({ email: e.target.value })}
                 placeholder="shop@example.com"
               />
             </Field>
-            <Field label="GSTIN">
-              <TextInput value={settings?.gstin} onChange={(e) => set({ gstin: e.target.value })} />
+            <Field label="GSTIN" hint="Printed top-right on the invoice">
+              <TextInput
+                value={settings?.gstin ?? ""}
+                onChange={(e) => set({ gstin: e.target.value.toUpperCase() })}
+                placeholder="Leave blank until confirmed"
+              />
             </Field>
-            <Field label="Drug Licence No" className="sm:col-span-2">
-              <TextInput value={settings?.dl_no} onChange={(e) => set({ dl_no: e.target.value })} />
-            </Field>
-            <Field label="Colour Theme">
-              <TextInput value={settings?.colour_theme} onChange={(e) => set({ colour_theme: e.target.value })} placeholder="e.g., green, blue" />
+            <Field label="Drug Licence No" hint="Printed top-right on the invoice">
+              <TextInput
+                value={settings?.dl_no ?? ""}
+                onChange={(e) => set({ dl_no: e.target.value.toUpperCase() })}
+                placeholder="Leave blank until confirmed"
+              />
             </Field>
             <Field label="Instagram ID" className="sm:col-span-2">
-              <TextInput value={settings?.instagram_id} onChange={(e) => set({ instagram_id: e.target.value })} placeholder="@yourinstagram" />
+              <TextInput
+                value={settings?.instagram_id ?? ""}
+                onChange={(e) => set({ instagram_id: e.target.value })}
+                placeholder="@yourinstagram"
+              />
             </Field>
-            <Field label="Logo" className="sm:col-span-2">
-              <TextInput value={settings?.logo} onChange={(e) => set({ logo: e.target.value })} placeholder="Logo URL or path" />
+            <Field label="Colour Theme">
+              <TextInput value={settings?.colour_theme ?? ""} onChange={(e) => set({ colour_theme: e.target.value })} placeholder="e.g., green, blue" />
+            </Field>
+            <Field label="Logo">
+              <TextInput value={settings?.logo ?? ""} onChange={(e) => set({ logo: e.target.value })} placeholder="Logo URL or path" />
             </Field>
           </div>
 

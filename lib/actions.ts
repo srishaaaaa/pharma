@@ -153,20 +153,20 @@ export async function deleteCustomer(id: string) {
 
 export async function saveSettings(payload: any) {
   await db.update(schema.settings).set({
-    shopName: payload.shop_name,
+    shopName: payload.shop_name || "",
     fullName: payload.full_name || "",
-    address: payload.address,
-    phone: payload.phone,
+    address: payload.address || "",
+    phone: payload.phone || "",
     shopContactNumber: payload.shop_contact_number || "",
     email: payload.email || "",
-    gstin: payload.gstin,
-    dlNo: payload.dl_no,
+    gstin: payload.gstin || "",
+    dlNo: payload.dl_no || "",
     colourTheme: payload.colour_theme || "green",
     logo: payload.logo || "",
     instagramId: payload.instagram_id || "",
-    defaultGst: payload.default_gst.toString(),
-    lowStockThreshold: payload.low_stock_threshold,
-    expiryAlertMonths: payload.expiry_alert_months,
+    defaultGst: String(payload.default_gst ?? 12),
+    lowStockThreshold: Number(payload.low_stock_threshold ?? 20),
+    expiryAlertMonths: Number(payload.expiry_alert_months ?? 6),
   }).where(eq(schema.settings.id, 1));
 }
 
