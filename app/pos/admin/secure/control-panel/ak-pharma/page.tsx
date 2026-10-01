@@ -154,6 +154,7 @@ export default function PharmacyManagementSystem() {
         onClose={() => setSidebarOpen(false)}
         expiryCount={expiryCount}
         logo={settings?.logo || "/logo.jpeg"}
+        useCustomLogo={Boolean(settings?.use_custom_logo)}
         shopName={settings?.shop_name || "AK PHARMA"}
       />
 

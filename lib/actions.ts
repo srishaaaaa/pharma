@@ -163,6 +163,7 @@ export async function saveSettings(payload: any) {
     dlNo: payload.dl_no || "",
     colourTheme: payload.colour_theme || "green",
     logo: payload.logo || "",
+    useCustomLogo: Boolean(payload.use_custom_logo),
     instagramId: payload.instagram_id || "",
     defaultGst: String(payload.default_gst ?? 12),
     lowStockThreshold: Number(payload.low_stock_threshold ?? 20),

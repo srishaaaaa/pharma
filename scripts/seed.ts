@@ -22,6 +22,7 @@ const DEFAULT_SETTINGS = {
   dlNo: "",
   colourTheme: "teal",
   logo: "/logos/ak-pharma-logo-square.jpeg",
+  useCustomLogo: false,
   instagramId: "",
   defaultGst: "12",
   lowStockThreshold: 20,

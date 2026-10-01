@@ -46,6 +46,7 @@ export const DEFAULT_SETTINGS: ShopSettings = {
   dl_no: "",
   colour_theme: "teal",
   logo: "/logos/ak-pharma-logo-square.jpeg",
+  use_custom_logo: false,
   instagram_id: "",
   default_gst: 12,
   low_stock_threshold: 20,

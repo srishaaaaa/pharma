@@ -212,6 +212,8 @@ export type ShopSettings = {
   dl_no: string;
   colour_theme: string;
   logo: string;
+  /** When false the app ignores `logo` and keeps the logo already in place. */
+  use_custom_logo: boolean;
   instagram_id: string;
   default_gst: number;
   low_stock_threshold: number;

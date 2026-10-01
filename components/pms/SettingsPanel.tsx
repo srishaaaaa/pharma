@@ -188,7 +188,24 @@ export const SettingsPanel = ({
               className="sm:col-span-2"
               hint="Shown in the sidebar. Use a path in /public (e.g. /logo.jpeg) or a full image URL."
             >
-              <div className="flex items-start gap-4">
+              {/* The toggle is off by default, so the logo currently in place stays
+                  exactly as it is until the owner opts in. */}
+              <label className="mb-3 flex cursor-pointer items-center gap-2.5 rounded-lg border border-[#e5e7eb] bg-white px-3 py-2.5">
+                <input
+                  type="checkbox"
+                  checked={Boolean(settings?.use_custom_logo)}
+                  onChange={(e) => set({ use_custom_logo: e.target.checked })}
+                  className="h-4 w-4 cursor-pointer accent-[var(--c-primary)]"
+                />
+                <span className="text-[13px] font-medium text-gray-800">
+                  Use a custom logo
+                </span>
+                <span className="ml-auto text-[11.5px] text-gray-500">
+                  {settings?.use_custom_logo ? "Enabled" : "Off — keeping the current logo"}
+                </span>
+              </label>
+
+              <div className={`flex items-start gap-4 ${settings?.use_custom_logo ? "" : "opacity-45"}`}>
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white p-1.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -204,6 +221,7 @@ export const SettingsPanel = ({
                   <TextInput
                     value={settings?.logo ?? ""}
                     onChange={(e) => set({ logo: e.target.value })}
+                    disabled={!settings?.use_custom_logo}
                     placeholder="/logo.jpeg"
                   />
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -215,11 +233,12 @@ export const SettingsPanel = ({
                       <button
                         key={preset.path}
                         type="button"
+                        disabled={!settings?.use_custom_logo}
                         onClick={() => set({ logo: preset.path })}
-                        className={`cursor-pointer rounded-md border px-2.5 py-1 text-[12px] font-medium transition ${
+                        className={`rounded-md border px-2.5 py-1 text-[12px] font-medium transition disabled:cursor-not-allowed ${
                           settings?.logo === preset.path
                             ? "border-[var(--c-primary)] bg-[var(--c-mint)] text-[var(--c-deep)]"
-                            : "border-[#d8dde3] bg-white text-gray-600 hover:bg-gray-50"
+                            : "border-[#d8dde3] bg-white text-gray-600 enabled:hover:bg-gray-50"
                         }`}
                       >
                         {preset.label}

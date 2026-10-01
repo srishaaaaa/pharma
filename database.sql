@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS "settings" (
 	"dl_no" text NOT NULL,
 	"colour_theme" text DEFAULT 'green' NOT NULL,
 	"logo" text DEFAULT '' NOT NULL,
+	"use_custom_logo" boolean DEFAULT false NOT NULL,
 	"instagram_id" text DEFAULT '' NOT NULL,
 	"default_gst" numeric(5, 2) DEFAULT '12' NOT NULL,
 	"low_stock_threshold" integer DEFAULT 20 NOT NULL,
@@ -164,12 +165,12 @@ CREATE INDEX IF NOT EXISTS "medicines_generic_idx" ON "medicines" USING btree ("
 -- the app's Settings screen.
 INSERT INTO "settings" (
   "id", "shop_name", "full_name", "address", "phone", "shop_contact_number", "email",
-  "gstin", "dl_no", "colour_theme", "logo", "instagram_id",
+  "gstin", "dl_no", "colour_theme", "logo", "use_custom_logo", "instagram_id",
   "default_gst", "low_stock_threshold", "expiry_alert_months"
 ) VALUES (
   1, 'AK PHARMA', 'Aravinthan A',
   'NO 2 , Venugopalapuram , kill nachipattu post , Tiruvannamalai 606 611',
   '7259103278', '', 'akaravinthan2413@gmail.com',
   '', '', 'teal',
-  '/logos/ak-pharma-logo-square.jpeg', '', '12', 20, 6
+  '/logos/ak-pharma-logo-square.jpeg', false, '', '12', 20, 6
 ) ON CONFLICT ("id") DO NOTHING;

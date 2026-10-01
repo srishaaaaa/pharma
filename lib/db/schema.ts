@@ -157,6 +157,9 @@ export const settings = pgTable("settings", {
   dlNo: text("dl_no").notNull(),
   colourTheme: text("colour_theme").notNull().default("green"),
   logo: text("logo").notNull().default(""),
+  /** Off by default: the app keeps showing the logo that is present until the
+      owner deliberately opts into the custom one from Settings. */
+  useCustomLogo: boolean("use_custom_logo").notNull().default(false),
   instagramId: text("instagram_id").notNull().default(""),
   defaultGst: numeric("default_gst", { precision: 5, scale: 2 }).notNull().default("12"),
   lowStockThreshold: integer("low_stock_threshold").notNull().default(20),

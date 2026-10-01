@@ -120,6 +120,7 @@ export const mapSettings = (row: any): ShopSettings => ({
   dl_no: row.dlNo,
   colour_theme: row.colourTheme || "green",
   logo: row.logo || "",
+  use_custom_logo: Boolean(row.useCustomLogo),
   instagram_id: row.instagramId || "",
   default_gst: toNum(row.defaultGst),
   low_stock_threshold: row.lowStockThreshold,

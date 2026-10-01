@@ -35,6 +35,10 @@ export const NAV_ITEMS: { key: ScreenKey; label: string; icon: React.ReactNode; 
   { key: "settings", label: "Settings", icon: <SettingsIcon className="h-[19px] w-[19px]" />, adminOnly: true },
 ];
 
+/* The bundled logo is what the app has always shown. Settings can point at a
+   custom one, but only once "Use a custom logo" is switched on. */
+export const DEFAULT_LOGO = "/logos/ak-pharma-logo-square.jpeg";
+
 export const Sidebar = ({
   active,
   onSelect,
@@ -43,6 +47,7 @@ export const Sidebar = ({
   onClose,
   expiryCount,
   logo,
+  useCustomLogo,
   shopName,
 }: {
   active: ScreenKey;
@@ -53,10 +58,12 @@ export const Sidebar = ({
   expiryCount: number;
   /** Logo path from shop settings; falls back to the bundled logo. */
   logo?: string;
+  /** When false the stored `logo` is ignored and the bundled logo is shown. */
+  useCustomLogo?: boolean;
   shopName?: string;
 }) => {
   const items = NAV_ITEMS.filter((item) => role === "admin" || !item.adminOnly);
-  const logoSrc = logo || "/logo.jpeg";
+  const logoSrc = useCustomLogo ? logo || DEFAULT_LOGO : DEFAULT_LOGO;
   const brand = (shopName || "AK PHARMA").toUpperCase();
   /* Keep the wordmark readable whatever the shop is called. */
   const brandWords = brand.split(/\s+/).filter(Boolean);
