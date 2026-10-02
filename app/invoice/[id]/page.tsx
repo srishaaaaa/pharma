@@ -32,6 +32,12 @@ const mfrLabel = (item: BillItem): string => {
 const discPercent = (item: BillItem): number =>
   item.line_mrp > 0 ? (item.line_discount / item.line_mrp) * 100 : 0;
 
+const GENDER: Record<string, string> = { M: "Male", F: "Female", O: "Other" };
+
+/** Selling-price total of the lines, before any counter discount. */
+const linesTotal = (bill: Bill): number =>
+  bill.items.reduce((sum, i) => sum + (Number(i.line_amount) || 0), 0);
+
 const totalQty = (bill: Bill): number => bill.items.reduce((sum, i) => sum + (Number(i.qty) || 0), 0);
 
 /** Sales value + tax contained within them, bucketed per GST slab. */
@@ -40,7 +46,8 @@ const gstBreakup = (bill: Bill) =>
     const lines = bill.items.filter((i) => Math.round(Number(i.gst_percent)) === slab);
     const sales = lines.reduce((s, i) => s + (Number(i.line_amount) || 0), 0);
     const tax = lines.reduce((s, i) => s + gstOf(i), 0);
-    return { slab, sales, tax };
+    // Slabs with no items on this bill print blank rather than 0.00.
+    return { slab, sales, tax, used: lines.length > 0 };
   });
 
 /** GST is already contained in the selling price (MRP-inclusive). */
@@ -113,11 +120,13 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
         {/* ---------- Tax Invoice banner + invoice meta ---------- */}
         <div className="flex items-start justify-between gap-4 border-b border-black py-1.5 text-[10.5px]">
           <div className="w-[34%]">
-            <p>Customer code : {bill.customer_id || ""}</p>
-            <p className="mt-3">PH :</p>
-            <p>Mob : {bill.customer_phone || ""}</p>
-            <p>DL No. :</p>
-            <p>GST No. :</p>
+            <p>Customer Name : <span className="font-bold">{bill.customer_name || ""}</span></p>
+            <p className="mt-3">Mob : {bill.customer_phone || ""}</p>
+            <p>Cust. ID : {bill.customer_id || ""}</p>
+            <p>Email : {bill.customer_email}</p>
+            <p>
+              Age / Gender : {[bill.customer_age, GENDER[bill.customer_gender] || bill.customer_gender].filter(Boolean).join(" / ")}
+            </p>
           </div>
 
           <div className="flex-1 text-center">
@@ -130,11 +139,11 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
               <span className="float-right">Page No. : 1 / 1</span>
             </p>
             <p>Date : {dateSlash(bill.bill_date)}</p>
-            <p>Sales Agent :</p>
-            <p>Cell : {bill.customer_phone || ""}</p>
+            <p>Payment Mode : {bill.payment_method}</p>
+            <p>Prescription No. : {bill.prescription_no}</p>
             <p>Due Date : {dateSlash(bill.bill_date)}</p>
-            <p>Cases :</p>
-            <p>Transport :</p>
+            <p>Doctor : {bill.doctor_name}</p>
+            <p>Billed By : {bill.billed_by}</p>
           </div>
         </div>
 
@@ -197,31 +206,31 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
               <tbody>
                 <tr>
                   <td className="border border-black px-1 py-0.5">Sub Total</td>
-                  <td className="w-[70px] border border-black px-1 py-0.5 text-right">{amount(bill.grand_total)}</td>
+                  <td className="w-[70px] border border-black px-1 py-0.5 text-right">{amount(linesTotal(bill))}</td>
                 </tr>
                 <tr>
                   <td className="border border-black px-1 py-0.5">Discount</td>
-                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(Math.max(0, linesTotal(bill) - bill.grand_total))}</td>
                 </tr>
                 <tr>
                   <td className="border border-black px-1 py-0.5">Tax Amount</td>
                   <td className="border border-black px-1 py-0.5 text-right">{amount(bill.gst_amount)}</td>
                 </tr>
                 <tr>
-                  <td className="border border-black px-1 py-0.5">Freight</td>
-                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                  <td className="border border-black px-1 py-0.5">Taxable Amount</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(bill.taxable_amount)}</td>
                 </tr>
                 <tr>
-                  <td className="border border-black px-1 py-0.5">Credit Note</td>
-                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                  <td className="border border-black px-1 py-0.5">Amount Received</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(bill.received_amount)}</td>
                 </tr>
                 <tr>
-                  <td className="border border-black px-1 py-0.5">Debit Note</td>
-                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                  <td className="border border-black px-1 py-0.5">Change Returned</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{amount(Math.max(0, bill.change_amount))}</td>
                 </tr>
                 <tr>
-                  <td className="border border-black px-1 py-0.5">Round off</td>
-                  <td className="border border-black px-1 py-0.5 text-right">{amount(0)}</td>
+                  <td className="border border-black px-1 py-0.5">Txn Ref No.</td>
+                  <td className="border border-black px-1 py-0.5 text-right">{bill.txn_ref}</td>
                 </tr>
               </tbody>
             </table>
@@ -240,26 +249,26 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
             <tbody>
               <tr>
                 <td className="border border-black px-1 py-0.5">Sales</td>
-                {gstBreakup(bill).map(({ slab, sales }) => (
-                  <td key={`sales-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(sales)}</td>
+                {gstBreakup(bill).map(({ slab, sales, used }) => (
+                  <td key={`sales-${slab}`} className="border border-black px-1 py-0.5 text-right">{used ? amount(sales) : ""}</td>
                 ))}
               </tr>
               <tr>
                 <td className="border border-black px-1 py-0.5">GST/GST</td>
-                {gstBreakup(bill).map(({ slab, tax }) => (
-                  <td key={`tax-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(tax)}</td>
+                {gstBreakup(bill).map(({ slab, tax, used }) => (
+                  <td key={`tax-${slab}`} className="border border-black px-1 py-0.5 text-right">{used ? amount(tax) : ""}</td>
                 ))}
               </tr>
               <tr>
                 <td className="border border-black px-1 py-0.5">CGST</td>
-                {gstBreakup(bill).map(({ slab, tax }) => (
-                  <td key={`cgst-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(tax / 2)}</td>
+                {gstBreakup(bill).map(({ slab, tax, used }) => (
+                  <td key={`cgst-${slab}`} className="border border-black px-1 py-0.5 text-right">{used ? amount(tax / 2) : ""}</td>
                 ))}
               </tr>
               <tr>
                 <td className="border border-black px-1 py-0.5">SGST</td>
-                {gstBreakup(bill).map(({ slab, tax }) => (
-                  <td key={`sgst-${slab}`} className="border border-black px-1 py-0.5 text-right">{amount(tax / 2)}</td>
+                {gstBreakup(bill).map(({ slab, tax, used }) => (
+                  <td key={`sgst-${slab}`} className="border border-black px-1 py-0.5 text-right">{used ? amount(tax / 2) : ""}</td>
                 ))}
               </tr>
             </tbody>

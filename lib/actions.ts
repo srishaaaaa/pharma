@@ -128,6 +128,9 @@ export async function saveCustomer(payload: any) {
       phone: payload.phone,
       address: payload.address,
       doctorName: payload.doctor_name,
+      email: payload.email ?? "",
+      age: payload.age ?? "",
+      gender: payload.gender ?? "",
       quickBill: payload.quick_bill,
     }).where(eq(schema.customers.id, payload.id));
   } else {
@@ -142,6 +145,9 @@ export async function saveCustomer(payload: any) {
       phone: payload.phone,
       address: payload.address,
       doctorName: payload.doctor_name,
+      email: payload.email ?? "",
+      age: payload.age ?? "",
+      gender: payload.gender ?? "",
       quickBill: payload.quick_bill,
     });
   }
@@ -177,12 +183,33 @@ export async function submitBill(payload: {
   customer_phone: string;
   customer_address: string;
   doctor_name: string;
+  customer_email?: string;
+  customer_age?: string;
+  customer_gender?: string;
+  prescription_no?: string;
+  billed_by?: string;
+  txn_ref?: string;
+  /** Flat discount given at the counter on top of the per-line discounts */
+  extra_discount?: number;
   received_amount: number;
   payment_method: string;
   lines: any[];
 }) {
+  const email = payload.customer_email?.trim() ?? "";
+  const age = payload.customer_age?.trim() ?? "";
+  const gender = payload.customer_gender?.trim() ?? "";
+
   return db.transaction(async (tx) => {
     let customerId = payload.customer_id;
+
+    // A picked customer keeps whatever extra details were typed at checkout.
+    if (customerId && (email || age || gender)) {
+      await tx.update(schema.customers).set({
+        ...(email && { email }),
+        ...(age && { age }),
+        ...(gender && { gender }),
+      }).where(eq(schema.customers.id, customerId));
+    }
 
     if (!customerId && (payload.customer_name || payload.customer_phone)) {
       // Upsert customer
@@ -193,6 +220,9 @@ export async function submitBill(payload: {
           name: payload.customer_name,
           address: payload.customer_address,
           doctorName: payload.doctor_name,
+          ...(email && { email }),
+          ...(age && { age }),
+          ...(gender && { gender }),
         }).where(eq(schema.customers.id, customerId));
       } else {
         const res = await tx.execute(sql`SELECT nextval('customer_seq')`);
@@ -204,12 +234,17 @@ export async function submitBill(payload: {
           phone: payload.customer_phone,
           address: payload.customer_address,
           doctorName: payload.doctor_name,
+          email,
+          age,
+          gender,
           quickBill: true,
         });
       }
     }
 
     const totals = calcBillTotals(payload.lines);
+    const extraDiscount = Math.min(Math.max(0, Number(payload.extra_discount) || 0), totals.grandTotal);
+    const grandTotal = round2(totals.grandTotal - extraDiscount);
     // The bill_seq Postgres sequence hands out a monotonic integer per bill
     // — kept in the DB so parallel checkouts can't collide on the same id.
     const seqRes = await tx.execute(sql`SELECT nextval('bill_seq')`);
@@ -224,15 +259,21 @@ export async function submitBill(payload: {
       customerPhone: payload.customer_phone,
       customerAddress: payload.customer_address,
       doctorName: payload.doctor_name,
+      customerEmail: email,
+      customerAge: age,
+      customerGender: gender,
+      prescriptionNo: payload.prescription_no?.trim() ?? "",
+      billedBy: payload.billed_by?.trim() ?? "",
+      txnRef: payload.txn_ref?.trim() ?? "",
       billDate: today,
       subTotal: totals.subTotal.toString(),
-      discount: totals.discount.toString(),
+      discount: round2(totals.discount + extraDiscount).toString(),
       taxableAmount: totals.taxableAmount.toString(),
       gstAmount: totals.gstAmount.toString(),
       gstPercent: totals.gstPercent.toString(),
-      grandTotal: totals.grandTotal.toString(),
+      grandTotal: grandTotal.toString(),
       receivedAmount: payload.received_amount.toString(),
-      changeAmount: (payload.received_amount - totals.grandTotal).toString(),
+      changeAmount: round2(payload.received_amount - grandTotal).toString(),
       paymentMethod: payload.payment_method,
       status: "COMPLETED",
     };

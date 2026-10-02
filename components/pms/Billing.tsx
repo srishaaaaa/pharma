@@ -23,7 +23,7 @@ import { amount, money, monthShort, unitNoun, todayIso } from "@/lib/format";
 import { listHeldBills, saveHeldBills } from "@/lib/store";
 import { submitBill } from "@/lib/actions";
 import { Button, Card, Pill, ScheduleBadge, ScreenHeading, Select } from "./ui";
-import { CustomerModal } from "./CustomerModal";
+import { CustomerModal, type CustomerPayload } from "./CustomerModal";
 
 /** Quick-add quantities requested by the client (slide 3) */
 const QUICK_ADD = [1, 10, 15, 20, 30, 45];
@@ -70,6 +70,7 @@ export const Billing = ({
   const [lines, setLines] = useState<CartLine[]>([]);
   const [received, setReceived] = useState<string>("");
   const [payment, setPayment] = useState<PaymentMethod>("Cash");
+  const [txnRef, setTxnRef] = useState("");
   const [extraDiscount, setExtraDiscount] = useState<number>(0);
   const [showDiscountBox, setShowDiscountBox] = useState(false);
   const [discountDraft, setDiscountDraft] = useState("");
@@ -203,6 +204,7 @@ export const Billing = ({
   const clearBill = () => {
     setLines([]);
     setReceived("");
+    setTxnRef("");
     setExtraDiscount(0);
     clearSelection();
   };
@@ -235,14 +237,7 @@ export const Billing = ({
     setCustomerOpen(true);
   };
 
-  const finishBill = async (customer: {
-    id: string | null;
-    name: string;
-    phone: string;
-    address: string;
-    doctor: string;
-    quickBill: boolean;
-  }) => {
+  const finishBill = async (customer: CustomerPayload) => {
     // iOS Safari blocks window.open() once it happens after an `await`, because it
     // no longer counts as being inside the tap gesture — that's why the bill saved
     // but no invoice opened on iPhone. Open the tab synchronously here (still inside
@@ -256,6 +251,13 @@ export const Billing = ({
         customer_phone: customer.phone,
         customer_address: customer.address,
         doctor_name: customer.doctor,
+        customer_email: customer.email,
+        customer_age: customer.age,
+        customer_gender: customer.gender,
+        prescription_no: customer.prescriptionNo,
+        billed_by: customer.billedBy,
+        txn_ref: txnRef,
+        extra_discount: extraDiscount,
         received_amount: receivedNum,
         payment_method: payment,
       });
@@ -794,6 +796,15 @@ export const Billing = ({
                 <option value="UPI">UPI</option>
                 <option value="Card">Card</option>
               </Select>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[12.5px] text-gray-700">Txn Ref No.</span>
+              <input
+                value={txnRef}
+                onChange={(e) => setTxnRef(e.target.value)}
+                placeholder="UPI / Card"
+                className="h-9 w-[96px] rounded-lg border border-[#d8dde3] px-2.5 text-right text-[13px] font-semibold outline-none focus:border-[#007f72]"
+              />
             </div>
             <div className="flex items-center justify-between">
               <span className="text-[12.5px] text-gray-700">Change (₹)</span>

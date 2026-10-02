@@ -102,6 +102,10 @@ export type Customer = {
   phone: string;
   address: string;
   doctor_name: string;
+  email: string;
+  age: string;
+  /** "M" / "F" / "O" or blank */
+  gender: string;
   /** Registered for Quick Bill */
   quick_bill: boolean;
   created_at: string;
@@ -146,6 +150,15 @@ export type Bill = {
   customer_phone: string;
   customer_address: string;
   doctor_name: string;
+  customer_email: string;
+  customer_age: string;
+  customer_gender: string;
+  /** Prescription number typed in at checkout */
+  prescription_no: string;
+  /** Staff member who made the bill */
+  billed_by: string;
+  /** UPI / card transaction reference */
+  txn_ref: string;
   /** yyyy-mm-dd */
   bill_date: string;
   created_at: string;

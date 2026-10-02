@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Zap, Info, User, Phone, MapPin, Stethoscope, Printer, X, Search } from "lucide-react";
+import { Zap, Info, User, Phone, MapPin, Stethoscope, Printer, X, Search, Mail, Cake, FileText, UserCheck } from "lucide-react";
 import type { Customer } from "@/lib/types";
 import { useCustomers } from "./data";
-import { Button } from "./ui";
+import { Button, Select } from "./ui";
 
 export type CustomerPayload = {
   id: string | null;
@@ -12,7 +12,13 @@ export type CustomerPayload = {
   phone: string;
   address: string;
   doctor: string;
+  email: string;
+  age: string;
+  gender: string;
   quickBill: boolean;
+  /** Bill-only details printed on the invoice header */
+  prescriptionNo: string;
+  billedBy: string;
 };
 
 export const CustomerModal = ({
@@ -32,6 +38,11 @@ export const CustomerModal = ({
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [doctor, setDoctor] = useState("");
+  const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [prescriptionNo, setPrescriptionNo] = useState("");
+  const [billedBy, setBilledBy] = useState("");
   const [quickBill, setQuickBill] = useState(false);
   const [picked, setPicked] = useState<Customer | null>(null);
   const [picker, setPicker] = useState(false);
@@ -49,6 +60,9 @@ export const CustomerModal = ({
   const nameValue = name || matched?.name || "";
   const addressValue = address || matched?.address || "";
   const doctorValue = doctor || matched?.doctor_name || "";
+  const emailValue = email || matched?.email || "";
+  const ageValue = age || matched?.age || "";
+  const genderValue = gender || matched?.gender || "";
 
   const pickerResults = useMemo(() => {
     const q = pickerQuery.trim().toLowerCase();
@@ -69,6 +83,9 @@ export const CustomerModal = ({
     setPhone(customer.phone);
     setAddress(customer.address);
     setDoctor(customer.doctor_name);
+    setEmail(customer.email);
+    setAge(customer.age);
+    setGender(customer.gender);
     setQuickBill(customer.quick_bill);
     setPicker(false);
   };
@@ -234,6 +251,54 @@ export const CustomerModal = ({
               placeholder="Enter doctor name"
             />
           </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <IconField
+              label="Email (Optional)"
+              icon={<Mail className="h-4 w-4 text-gray-400" />}
+              value={emailValue}
+              onChange={setEmail}
+              placeholder="Enter email"
+            />
+            <IconField
+              label="Age (Optional)"
+              icon={<Cake className="h-4 w-4 text-gray-400" />}
+              value={ageValue}
+              onChange={(v) => setAge(v.replace(/[^\d]/g, "").slice(0, 3))}
+              placeholder="Enter age"
+              inputMode="numeric"
+            />
+            <div>
+              <label className="field-label">Gender (Optional)</label>
+              <Select value={genderValue} onChange={(e) => setGender(e.target.value)} className="h-11">
+                <option value="">Select</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+              </Select>
+            </div>
+          </div>
+
+          {/* Bill-only details — printed on the invoice header */}
+          <p className="mb-3 mt-6 border-t border-[#eceff2] pt-5 text-[13.5px] font-semibold text-gray-900">
+            Bill Details
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <IconField
+              label="Prescription No. (Optional)"
+              icon={<FileText className="h-4 w-4 text-gray-400" />}
+              value={prescriptionNo}
+              onChange={setPrescriptionNo}
+              placeholder="Enter prescription number"
+            />
+            <IconField
+              label="Billed By (Optional)"
+              icon={<UserCheck className="h-4 w-4 text-gray-400" />}
+              value={billedBy}
+              onChange={setBilledBy}
+              placeholder="Enter staff name"
+            />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-3 border-t border-[#eceff2] px-7 py-4">
@@ -248,7 +313,12 @@ export const CustomerModal = ({
                 phone,
                 address: addressValue,
                 doctor: doctorValue,
+                email: emailValue,
+                age: ageValue,
+                gender: genderValue,
                 quickBill,
+                prescriptionNo,
+                billedBy,
               })
             }
           >

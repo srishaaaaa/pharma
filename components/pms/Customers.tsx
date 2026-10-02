@@ -7,7 +7,7 @@ import { amount, dateSlash, money } from "@/lib/format";
 import { deleteCustomer, saveCustomer } from "@/lib/actions";
 import { CUSTOMERS_SHEET } from "./exports";
 import { downloadExcel } from "@/lib/xlsx";
-import { Button, Card, Field, Modal, PageTitle, Pill, TextInput } from "./ui";
+import { Button, Card, Field, Modal, PageTitle, Pill, Select, TextInput } from "./ui";
 
 export const Customers = ({
   customers,
@@ -109,7 +109,7 @@ export const Customers = ({
       {/* Desktop / tablet table */}
       <Card className="hidden overflow-hidden md:block">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px]">
+          <table className="w-full min-w-[1100px]">
             <thead>
               <tr className="bg-[#f4f6f8] text-gray-700">
                 <th className="th">S.No</th>
@@ -118,6 +118,8 @@ export const Customers = ({
                 <th className="th">Phone</th>
                 <th className="th">Address</th>
                 <th className="th">Doctor</th>
+                <th className="th">Email</th>
+                <th className="th">Age / Gender</th>
                 <th className="th text-center">Bills</th>
                 <th className="th text-right">Total Purchase</th>
                 <th className="th">Last Purchase</th>
@@ -140,6 +142,8 @@ export const Customers = ({
                   <td className="td">{customer.phone || "—"}</td>
                   <td className="td max-w-[220px] truncate">{customer.address || "—"}</td>
                   <td className="td">{customer.doctor_name || "—"}</td>
+                  <td className="td max-w-[180px] truncate">{customer.email || "—"}</td>
+                  <td className="td">{[customer.age, customer.gender].filter(Boolean).join(" / ") || "—"}</td>
                   <td className="td text-center">{own.length}</td>
                   <td className="td text-right font-semibold">{amount(spend)}</td>
                   <td className="td">{last ? dateSlash(last) : "—"}</td>
@@ -218,6 +222,17 @@ export const Customers = ({
                 {customer.doctor_name && (
                   <p className="mt-1 text-[12.5px] text-gray-600">
                     <span className="text-gray-400">Doctor:</span> {customer.doctor_name}
+                  </p>
+                )}
+                {customer.email && (
+                  <p className="mt-1 break-words text-[12.5px] text-gray-600">
+                    <span className="text-gray-400">Email:</span> {customer.email}
+                  </p>
+                )}
+                {(customer.age || customer.gender) && (
+                  <p className="mt-1 text-[12.5px] text-gray-600">
+                    <span className="text-gray-400">Age / Gender:</span>{" "}
+                    {[customer.age, customer.gender].filter(Boolean).join(" / ")}
                   </p>
                 )}
               </div>
@@ -384,6 +399,9 @@ const CustomerFormModal = ({
     phone: customer?.phone || "",
     address: customer?.address || "",
     doctor_name: customer?.doctor_name || "",
+    email: customer?.email || "",
+    age: customer?.age || "",
+    gender: customer?.gender || "",
     quick_bill: customer?.quick_bill || false,
   });
 
@@ -444,6 +462,29 @@ const CustomerFormModal = ({
             onChange={(e) => setDraft({ ...draft, doctor_name: e.target.value })}
             placeholder="Enter doctor name"
           />
+        </Field>
+        <Field label="Email">
+          <TextInput
+            value={draft.email}
+            onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+            placeholder="Enter email"
+          />
+        </Field>
+        <Field label="Age">
+          <TextInput
+            value={draft.age}
+            inputMode="numeric"
+            onChange={(e) => setDraft({ ...draft, age: e.target.value.replace(/[^\d]/g, "").slice(0, 3) })}
+            placeholder="Enter age"
+          />
+        </Field>
+        <Field label="Gender">
+          <Select value={draft.gender} onChange={(e) => setDraft({ ...draft, gender: e.target.value })}>
+            <option value="">Select</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+          </Select>
         </Field>
         <label className="flex cursor-pointer items-end gap-2.5 pb-2.5 text-[13.5px] font-medium text-gray-800">
           <input

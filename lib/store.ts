@@ -150,9 +150,9 @@ const buildSeed = (): Store => {
   });
 
   const customers: Customer[] = [
-    { id: "AKP000001", name: "Karthik", phone: "7350179069", address: "Anaimalai, Coimbatore", doctor_name: "Dr. R. Mohan", quick_bill: true, created_at: created },
-    { id: "AKP000002", name: "Priya S", phone: "9865321470", address: "Pollachi Main Road", doctor_name: "Dr. S. Latha", quick_bill: true, created_at: created },
-    { id: "AKP000003", name: "Ramesh Kumar", phone: "9791234560", address: "Thirumurthy Nagar", doctor_name: "", quick_bill: false, created_at: created },
+    { id: "AKP000001", name: "Karthik", phone: "7350179069", address: "Anaimalai, Coimbatore", doctor_name: "Dr. R. Mohan", email: "", age: "", gender: "", quick_bill: true, created_at: created },
+    { id: "AKP000002", name: "Priya S", phone: "9865321470", address: "Pollachi Main Road", doctor_name: "Dr. S. Latha", email: "", age: "", gender: "", quick_bill: true, created_at: created },
+    { id: "AKP000003", name: "Ramesh Kumar", phone: "9791234560", address: "Thirumurthy Nagar", doctor_name: "", email: "", age: "", gender: "", quick_bill: false, created_at: created },
   ];
 
   return {
@@ -504,6 +504,9 @@ export const saveCustomer = (input: {
       phone: input.phone,
       address: input.address || "",
       doctor_name: input.doctor_name || "",
+      email: "",
+      age: "",
+      gender: "",
       quick_bill: Boolean(input.quick_bill),
       created_at: nowIso(),
     };
@@ -564,6 +567,9 @@ export const submitBill = (payload: {
           phone: payload.customer.phone.trim(),
           address: payload.customer.address.trim(),
           doctor_name: payload.customer.doctor.trim(),
+          email: "",
+          age: "",
+          gender: "",
           quick_bill: payload.customer.quickBill,
           created_at: nowIso(),
         };
@@ -613,6 +619,12 @@ export const submitBill = (payload: {
       customer_phone: payload.customer.phone.trim(),
       customer_address: payload.customer.address.trim(),
       doctor_name: payload.customer.doctor.trim(),
+      customer_email: "",
+      customer_age: "",
+      customer_gender: "",
+      prescription_no: "",
+      billed_by: "",
+      txn_ref: "",
       bill_date: payload.billDate,
       created_at: nowIso(),
       sub_total: totals.subTotal,

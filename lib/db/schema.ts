@@ -82,6 +82,9 @@ export const customers = pgTable("customers", {
   phone: text("phone").notNull().default(""),
   address: text("address").notNull().default(""),
   doctorName: text("doctor_name").notNull().default(""),
+  email: text("email").notNull().default(""),
+  age: text("age").notNull().default(""),
+  gender: text("gender").notNull().default(""),
   quickBill: boolean("quick_bill").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -95,6 +98,14 @@ export const bills = pgTable(
     customerPhone: text("customer_phone").notNull().default(""),
     customerAddress: text("customer_address").notNull().default(""),
     doctorName: text("doctor_name").notNull().default(""),
+    customerEmail: text("customer_email").notNull().default(""),
+    customerAge: text("customer_age").notNull().default(""),
+    customerGender: text("customer_gender").notNull().default(""),
+    /** Typed in at checkout and printed on the invoice header. */
+    prescriptionNo: text("prescription_no").notNull().default(""),
+    billedBy: text("billed_by").notNull().default(""),
+    /** UPI / card transaction reference, printed in the totals block. */
+    txnRef: text("txn_ref").notNull().default(""),
     billDate: date("bill_date").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     subTotal: numeric("sub_total", { precision: 12, scale: 2 }).notNull(),

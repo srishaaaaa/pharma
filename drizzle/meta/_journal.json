@@ -43,6 +43,13 @@
       "when": 1790591000000,
       "tag": "0005_add_custom_logo_toggle",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790592000000,
+      "tag": "0006_add_invoice_customer_details",
+      "breakpoints": true
     }
   ]
 }
